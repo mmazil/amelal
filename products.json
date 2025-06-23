@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Farine",
+    "description": "Farine Kenz 10 KG + 3 KG Offertes",
+    "price": "55 DH",
+    "category": "Affordable",
+    "image": "https://e-xportmorocco.com/storage/produits/1674901940.png",
+    "stores": [
+      { "id": "marjane", "name": "Marjane", "link": "https://www.marjane.ma" },
+      {
+        "id": "hanout",
+        "name": "Moul L7anot",
+        "link": "https://maps.google.com"
+      },
+      { "id": "glovo", "name": "Glovo", "link": "https://glovoapp.com" }
+    ]
+  },
+  {
+    "name": "Sucre",
+    "description": "Sucre Lingot Cosumar 1kg",
+    "price": "6 DH",
+    "category": "Affordable",
+    "image": "https://www.mymarket.ma/cdn/shop/products/Lingots-de-Sucre-1kg-ENMER_a0a06979-0434-47f2-b2b2-9b4ae0d20d2d.png?v=1654515376&width=375",
+    "stores": [
+      { "id": "marjane", "name": "Marjane", "link": "https://www.marjane.ma" },
+      {
+        "id": "hanout",
+        "name": "Moul L7anot",
+        "link": "https://maps.google.com"
+      },
+      { "id": "glovo", "name": "Glovo", "link": "https://glovoapp.com" }
+    ]
+  },
+  {
+    "name": "Dahmis",
+    "description": "Thé Dahmis 250g",
+    "price": "25 DH",
+    "category": "Affordable",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/2b/c2/082edcc3e968c933750049629a10.jpg",
+    "stores": [
+      { "id": "marjane", "name": "Marjane", "link": "https://www.marjane.ma" },
+      {
+        "id": "hanout",
+        "name": "Moul L7anot",
+        "link": "https://maps.google.com"
+      },
+      { "id": "glovo", "name": "Glovo", "link": "https://glovoapp.com" }
+    ]
+  }
+]
