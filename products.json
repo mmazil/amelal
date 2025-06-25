@@ -1,50 +1,178 @@
 [
   {
-    "name": "Farine",
-    "description": "Farine Kenz 10 KG + 3 KG Offertes",
-    "price": "55 DH",
-    "category": "Affordable",
-    "image": "https://e-xportmorocco.com/storage/produits/1674901940.png",
-    "stores": [
-      { "id": "marjane", "name": "Marjane", "link": "https://www.marjane.ma" },
-      {
-        "id": "hanout",
-        "name": "Moul L7anot",
-        "link": "https://maps.google.com"
-      },
-      { "id": "glovo", "name": "Glovo", "link": "https://glovoapp.com" }
-    ]
+    "name": "Fromage fondu 8 portions",
+    "description": "Fromage fondu 8 portions, Khayrat",
+    "price": "9.95 DH",
+    "saved": "5.85 DH",
+    "category": "Essentials",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/de/b6/8e3b935874da92796cef567eccdf.jpg"
   },
   {
-    "name": "Sucre",
-    "description": "Sucre Lingot Cosumar 1kg",
-    "price": "6 DH",
-    "category": "Affordable",
-    "image": "https://www.mymarket.ma/cdn/shop/products/Lingots-de-Sucre-1kg-ENMER_a0a06979-0434-47f2-b2b2-9b4ae0d20d2d.png?v=1654515376&width=375",
-    "stores": [
-      { "id": "marjane", "name": "Marjane", "link": "https://www.marjane.ma" },
-      {
-        "id": "hanout",
-        "name": "Moul L7anot",
-        "link": "https://maps.google.com"
-      },
-      { "id": "glovo", "name": "Glovo", "link": "https://glovoapp.com" }
-    ]
+    "name": "Fromage frais à tartiner 190g",
+    "description": "Fromage frais à tartiner 190g - JEBLI",
+    "price": "14.65 DH",
+    "saved": "5.30 DH",
+    "category": "Essentials",
+    "image": "https://shippini.ma/wp-content/uploads/2023/12/Fromage-frais-a-tartiner-190g-JEBLI.jpg"
   },
   {
-    "name": "Dahmis",
-    "description": "Thé Dahmis 250g",
-    "price": "25 DH",
-    "category": "Affordable",
-    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/2b/c2/082edcc3e968c933750049629a10.jpg",
-    "stores": [
-      { "id": "marjane", "name": "Marjane", "link": "https://www.marjane.ma" },
-      {
-        "id": "hanout",
-        "name": "Moul L7anot",
-        "link": "https://maps.google.com"
-      },
-      { "id": "glovo", "name": "Glovo", "link": "https://glovoapp.com" }
-    ]
+    "name": "Lait pasteurisé demi-écrémé",
+    "description": "Lait pasteurisé demi-écrémé 47cl - JIBAL",
+    "price": "3.95 DH",
+    "saved": "6.90 DH",
+    "category": "Essentials",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/d5/af/576ee9dfbca0d3b80798bc9f8e86.jpg"
+  },
+  {
+    "name": "Beurre doux 82% MG 1Kg",
+    "description": "Beurre doux 82% de matière grasse 1Kg - ALIA",
+    "price": "98.95 DH",
+    "saved": "10.00 DH",
+    "category": "Essentials",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/cc/7e/38a5397aa65d7ae7d0ba757d34ef.jpg"
+  },
+  {
+    "name": "Beurre allégé doux 45% MG 500g",
+    "description": "Beurre allégé doux 45% de matière grasse 500g - LE BERGER",
+    "price": "49.90 DH",
+    "saved": "5.00 DH",
+    "category": "Essentials",
+    "image": "https://leberger.ma/wp-content/uploads/2022/06/Beurre-le-berger-500g-vert-min.png"
+  },
+  {
+    "name": "Beurre allégé doux 45% MG 250g",
+    "description": "Beurre allégé doux 45% de matière grasse 250g - LE BERGER",
+    "price": "26.50 DH",
+    "saved": "4.00 DH",
+    "category": "Essentials",
+    "image": "https://leberger.ma/wp-content/uploads/2022/06/Beurre-le-berger-250g-vert-min.png"
+  },
+  {
+    "name": "Beurre pasteurisé 82% MG doux 200g",
+    "description": "Beurre pasteurisé doux 82% de MG - 200g - JIBAL",
+    "price": "22.40 DH",
+    "saved": "6.00 DH",
+    "category": "Essentials",
+    "image": "https://lh3.googleusercontent.com/proxy/b3qEFuHHQgrZjvLZz7HqUoLkoZ_D8EdlYnQKoa2dZXL4hIbpOK3hNzxUiy39D5gzm6u9B4spVaxBXNXedDxY6xlsdsM-iQ3PTn7qSjSHGy9Mf2Qfucf4"
+  },
+  {
+    "name": "Margarine pâtissière en plaquette 250g",
+    "description": "Margarine pâtissière en plaquette 250g - LEDDA",
+    "price": "8.95 DH",
+    "saved": "10.55 DH",
+    "category": "Essentials",
+    "image": "https://cdn.shopify.com/s/files/1/0248/9771/6302/files/Ledda-margarine-patissiere-250g.jpg?v=1685703835"
+  },
+  {
+    "name": "Margarine pâtissière en plaquette 500g",
+    "description": "Margarine pâtissière en plaquette 500g - LEDDA",
+    "price": "16.20 DH",
+    "saved": "15.30 DH",
+    "category": "Essentials",
+    "image": "https://e-xportmorocco.com/storage/produits/1645523823.png"
+  },
+  {
+    "name": "Margarine tartine et cuisson en barquette 1kg",
+    "description": "Margarine tartine et cuisson en barquette 1kg - MAGDOR",
+    "price": "41.95 DH",
+    "saved": "15.25 DH",
+    "category": "Essentials",
+    "image": "https://storage.googleapis.com/sales-img-ma-prelive/web/cache/sylius_large/3a/03/fde7ce86dc40e8a3796c2c120a5e.jpg"
+  },
+  {
+    "name": "Bahia Eau de table 5L",
+    "description": "Bahia Eau de table 5L",
+    "price": "9.95 DH",
+    "saved": "3.00 DH",
+    "category": "Essentials",
+    "image": "https://www.fournipro.ma/media/catalog/product/cache/5071cfa5f17ef440ab51cb12bf8d46d4/e/a/eau_de_table_purifi_e_bahia_5_litres_-_fournipro.ma1.jpg"
+  },
+  {
+    "name": "Sidi Harazem Eau minérale 5L",
+    "description": "Sidi Harazem Eau minérale 5L",
+    "price": "12.00 DH",
+    "saved": "0.95 DH",
+    "category": "Essentials",
+    "image": "https://www.aswakdelivery.com/rabat/wp-content/uploads/sites/11/2024/11/0936195.jpg"
+  },
+  {
+    "name": "Bahia Eau de table 1.5L",
+    "description": "Bahia Eau de table 1.5L",
+    "price": "3.60 DH",
+    "saved": "3.15 DH",
+    "category": "Essentials",
+    "image": "https://soukelhad.shop/wp-content/uploads/2023/09/Eau-de-table-Bahia-6x1.5L-Souk-El-Had.jpg"
+  },
+  {
+    "name": "Sidi Harazem Eau minérale 1.5L",
+    "description": "Sidi Harazem Eau minérale 1.5L",
+    "price": "3.95 DH",
+    "saved": "2.80 DH",
+    "category": "Essentials",
+    "image": "https://liya.ma/wp-content/uploads/2022/02/9eb4d82b2671d9209ef7199f6aacc298-1.jpg"
+  },
+  {
+    "name": "Aquafina Eau de table 50cl",
+    "description": "Aquafina Eau de table 50cl",
+    "price": "2.50 DH",
+    "saved": "1.50 DH",
+    "category": "Essentials",
+    "image": "https://aswakassalam.com/wp-content/uploads/2022/09/1302786.jpg"
+  },
+  {
+    "name": "Sidi Harazem Eau minérale 50cl",
+    "description": "Sidi Harazem Eau minérale 50cl",
+    "price": "2.70 DH",
+    "saved": "1.30 DH",
+    "category": "Essentials",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/0f/43/986b3624e6c8c25d9db3cc1d4149.jpg"
+  },
+  {
+    "name": "Juper boisson au jus de pêche 1L",
+    "description": "Boisson au jus de pêche 1L",
+    "price": "7.00 DH",
+    "saved": "2.95 DH",
+    "category": "Essentials",
+    "image": "https://i0.wp.com/www.aswakdelivery.com/agadir/wp-content/uploads/sites/18/2024/11/1215713.jpg?fit=1200%2C1200&ssl=1"
+  },
+  {
+    "name": "Juper orange Pulpe 1L",
+    "description": "Boisson orange avec pulpe 1L",
+    "price": "7.00 DH",
+    "saved": "2.95 DH",
+    "category": "Essentials",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/d7/9f/172f24b4ca2712087f3b3124db5d.jpg"
+  },
+  {
+    "name": "Jaouda Press Up Nectar frais d'orange 420ml",
+    "description": "Nectar frais d'orange 420ml",
+    "price": "5.00 DH",
+    "saved": "0.90 DH",
+    "category": "Essentials",
+    "image": "https://www.aswakdelivery.com/rabat/wp-content/uploads/sites/11/2024/11/1366502.jpg"
+  },
+  {
+    "name": "Jus de fruits au lait à la pêche et à l'abricot Fawakih 330ml - CHERGUI",
+    "description": "Jus de fruits au lait à la pêche et à l'abricot 330ml",
+    "price": "4.90 DH",
+    "saved": "0.10 DH",
+    "category": "Essentials",
+    "image": "https://liya.ma/wp-content/uploads/2022/02/1992289_1.jpeg"
+  },
+  {
+    "name": "Ice orange 1,5 L",
+    "description": "Boisson gazeuse Ice orange 1,5L",
+    "price": "7.00 DH",
+    "saved": "2.00 DH",
+    "category": "Essentials",
+    "image": "https://www.maghrebmarket.ca/cdn/shop/files/ICEPulpaOrangeDrink1.5L.webp?v=1729646003"
+  },
+  {
+    "name": "Ice cola 1,5 L",
+    "description": "Boisson gazeuse Ice Cola 1,5 L",
+    "price": "7.00 DH",
+    "saved": "2.00 DH",
+    "category": "Essentials",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/62/aa/94f730675599250558443a346199.jpg"
   }
 ]
