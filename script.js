@@ -1,5 +1,5 @@
 let allProducts = [];
-let currentCategory = "Essentials";
+let currentCategory = "Essentiels";
 
 // Render filtered products
 function renderProducts(products = allProducts) {
@@ -7,56 +7,54 @@ function renderProducts(products = allProducts) {
   grid.innerHTML = "";
 
   products
-    .filter((p) => p.category === currentCategory)
+    .filter((p) => p.category.includes(currentCategory))
     .forEach((p, index) => {
       grid.innerHTML += `
-        <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 h-full">
-          <img src="${p.image}" alt="${
+      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 h-full">
+        <img src="${p.image}" alt="${
         p.name
       }" class="w-32 h-32 object-contain rounded-md" />
 
-          <div class="flex flex-col justify-between flex-1">
-            <div class="space-y-2">
-              <h3 class="text-lg font-semibold">${p.name}</h3>
-              <p class="text-sm text-gray-600">${p.description}</p>
+        <div class="flex flex-col justify-between flex-1">
+          <div class="space-y-2">
+            <h3 class="text-lg font-semibold">${p.name}</h3>
+            <p class="text-sm text-gray-600">${p.description}</p>
 
-              <!-- Price + Info Icon -->
-              <div class="flex items-center gap-2">
-                <p class="text-indigo-600 font-bold text-sm">Price: ${
-                  p.price
-                }</p>
-                <span class="text-gray-400 text-sm cursor-pointer group relative">
-                  ℹ️
-                  <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-md rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
-                    This is the recommended price, prices may vary by supermarket.
-                  </span>
+            <!-- Price + Info Icon -->
+            <div class="flex items-center gap-2">
+              <p class="text-indigo-600 font-bold text-sm">Price: ${p.price}</p>
+              <span class="text-gray-400 text-sm cursor-pointer group relative">
+                ℹ️
+                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-md rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
+                  This is the recommended price, prices may vary by supermarket.
                 </span>
-              </div>
-
-              ${
-                p.saved
-                  ? `
-                  <div class="flex items-center gap-2">
-                  <p class="text-green-600 font-medium text-sm">You Save: ${p.saved}</p>
-                  <span class="text-gray-400 text-sm cursor-pointer group relative">
-                  ℹ️
-                  <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-md rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
-                    Your savings are averaged based on prices of similar products.
-                  </span>
-                </span></div>`
-                  : ""
-              }
+              </span>
             </div>
 
-            <div class="pt-4 justify-end flex">
-              <button onclick="openModal(${index})"
-                class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
-                Where to Buy
-              </button>
-            </div>
+            ${
+              p.saved
+                ? `
+                <div class="flex items-center gap-2">
+                <p class="text-green-600 font-medium text-sm">You Save: ${p.saved}</p>
+                <span class="text-gray-400 text-sm cursor-pointer group relative">
+                ℹ️
+                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-md rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
+                  Your savings are averaged based on prices of similar products.
+                </span>
+              </span></div>`
+                : ""
+            }
+          </div>
+
+          <div class="pt-4 justify-end flex">
+            <button onclick="openModal(${index})"
+              class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
+              Where to Buy
+            </button>
           </div>
         </div>
-      `;
+      </div>
+    `;
     });
 }
 
@@ -129,7 +127,8 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
   const keyword = e.target.value.toLowerCase();
   const filtered = allProducts.filter(
     (p) =>
-      p.category === currentCategory && p.name.toLowerCase().includes(keyword)
+      p.category.includes(currentCategory) &&
+      p.name.toLowerCase().includes(keyword)
   );
   renderProducts(filtered);
 });
