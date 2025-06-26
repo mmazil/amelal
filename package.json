@@ -1,0 +1,14 @@
+{
+  "name": "budget-picks",
+  "version": "1.0.0",
+  "description": "Find affordable alternatives to popular products",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx vite --host",
+    "build": "npx vite build",
+    "preview": "npx vite preview --host"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
