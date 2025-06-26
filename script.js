@@ -124,11 +124,7 @@ function updateShoppingListDisplay() {
         <div class="flex items-center gap-4">
           <div class="relative">
             <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-contain rounded-lg bg-gray-50" />
-            ${item.saved ? `
-              <div class="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">
-                Save ${item.saved}
-              </div>
-            ` : ''}
+            
           </div>
           
           <div class="flex-1 min-w-0">
@@ -229,11 +225,6 @@ function renderProducts(products = allProducts) {
         <div class="flex flex-col lg:flex-row gap-6 h-full">
           <div class="relative">
             <img src="${p.image}" alt="${p.name}" class="w-32 h-32 lg:w-40 lg:h-40 object-contain rounded-xl bg-gray-50 mx-auto lg:mx-0" />
-            ${p.saved ? `
-              <div class="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs px-3 py-1 rounded-full font-bold shadow-elegant">
-                Save ${p.saved}
-              </div>
-            ` : ''}
           </div>
 
           <div class="flex flex-col justify-between flex-1">
@@ -334,11 +325,7 @@ window.openModal = function (index) {
     <div class="flex flex-col lg:flex-row gap-6">
       <div class="relative lg:w-1/3">
         <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-contain rounded-xl bg-gray-50" />
-        ${product.saved ? `
-          <div class="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm px-3 py-2 rounded-full font-bold shadow-elegant">
-            Save ${product.saved}
-          </div>
-        ` : ''}
+        
       </div>
       
       <div class="lg:w-2/3 space-y-4">
