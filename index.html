@@ -30,17 +30,44 @@
         class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center"
       >
         <h1 class="text-2xl font-bold text-indigo-600">Budget Picks</h1>
-        <nav>
+        <nav class="flex items-center gap-4">
           <a href="#" class="text-gray-600 hover:text-indigo-600 px-3">Home</a>
           <a href="#" class="text-gray-600 hover:text-indigo-600 px-3">About</a>
-          <a href="#" class="text-gray-600 hover:text-indigo-600 px-3"
-            >Contact</a
+          <a href="#" class="text-gray-600 hover:text-indigo-600 px-3">Contact</a>
+          <button
+            id="toggleListBtn"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center gap-2"
           >
+            <span>🛒</span>
+            <span>My List (<span id="listCount">0</span>)</span>
+          </button>
         </nav>
       </div>
     </header>
 
     <main class="max-w-6xl mx-auto p-6 min-h-screen">
+      <!-- Shopping List Panel -->
+      <div id="shoppingListPanel" class="hidden mb-6 bg-white rounded-xl shadow-sm p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-800">My Shopping List</h2>
+          <button
+            id="clearListBtn"
+            class="text-red-600 hover:text-red-700 text-sm font-medium"
+          >
+            Clear All
+          </button>
+        </div>
+        <div id="shoppingListItems" class="space-y-3 mb-4">
+          <!-- Shopping list items will be inserted here -->
+        </div>
+        <div class="border-t pt-4">
+          <div class="flex justify-between items-center text-lg font-bold">
+            <span>Total:</span>
+            <span id="totalPrice" class="text-indigo-600">0.00 MAD</span>
+          </div>
+        </div>
+      </div>
+
       <h2 class="text-3xl font-bold mb-6 text-center">Top Products</h2>
       <div class="mb-6 flex flex-wrap gap-3 justify-center">
         <button
@@ -93,30 +120,35 @@
       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden"
     >
       <div
-        class="bg-white w-full max-w-md rounded-xl shadow-lg p-6 space-y-6 relative"
+        class="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 space-y-6 relative max-h-[90vh] overflow-y-auto"
       >
         <!-- Modal Title -->
         <div class="text-center">
           <h2 id="modalTitle" class="text-2xl font-semibold text-gray-800">
-            Where to Buy
+            Product Details
           </h2>
-          <p class="text-sm text-gray-500">
-            Find this product at your favorite store or app
-          </p>
         </div>
 
-        <!-- Store List -->
-        <div id="storeList" class="space-y-4">
-          <!-- JS will insert rows here -->
+        <!-- Product Details -->
+        <div id="productDetails" class="space-y-4">
+          <!-- Product details will be inserted here -->
         </div>
 
-        <!-- Close Button -->
-        <button
-          id="closeModal"
-          class="w-full py-2 px-4 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded"
-        >
-          Close
-        </button>
+        <!-- Action Buttons -->
+        <div class="flex gap-3">
+          <button
+            id="addToListBtn"
+            class="flex-1 py-3 px-4 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition"
+          >
+            Add to List
+          </button>
+          <button
+            id="closeModal"
+            class="flex-1 py-3 px-4 text-sm font-medium bg-gray-200 hover:bg-gray-300 rounded-lg transition"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
 
