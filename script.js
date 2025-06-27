@@ -1,4 +1,5 @@
 let allProducts = [];
+let filteredProducts = [];
 let currentCategory = "Essentiels";
 let shoppingList = [];
 let currentProductIndex = null;
@@ -31,9 +32,7 @@ function formatPrice(price) {
 }
 
 // Add product to shopping list
-function addToShoppingList(productIndex) {
-  const product = allProducts[productIndex];
-
+function addToShoppingList(product) {
   // Check if product already exists in list
   const existingIndex = shoppingList.findIndex(
     (item) => item.name === product.name
@@ -185,15 +184,22 @@ function showNotification(message, type = "info") {
   }, 3000);
 }
 
+// Filter products by category
+function filterProductsByCategory(category) {
+  return allProducts.filter((p) => p.category.includes(category));
+}
+
 // Render filtered products
-function renderProducts(products = allProducts) {
+function renderProducts(products = null) {
   const grid = document.getElementById("product-grid");
   grid.innerHTML = "";
 
-  products
-    .filter((p) => p.category.includes(currentCategory))
-    .forEach((p, index) => {
-      grid.innerHTML += `
+  // Use provided products or filter by current category
+  const productsToRender = products || filterProductsByCategory(currentCategory);
+  filteredProducts = productsToRender; // Store filtered products
+
+  productsToRender.forEach((p, index) => {
+    grid.innerHTML += `
       <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 h-full">
         <img src="${p.image}" alt="${
         p.name
@@ -239,7 +245,7 @@ function renderProducts(products = allProducts) {
         </div>
       </div>
     `;
-    });
+  });
 }
 
 // Fetch products and setup filters
@@ -266,7 +272,8 @@ fetch("products.json")
 
 // Open modal and show product details
 window.openModal = function (index) {
-  const product = allProducts[index];
+  // Use the filtered products array instead of allProducts
+  const product = filteredProducts[index];
   currentProductIndex = index;
   const modal = document.getElementById("modal");
   const modalTitle = document.getElementById("modalTitle");
@@ -396,7 +403,9 @@ document.getElementById("closeModal").addEventListener("click", () => {
 // Add to list button
 document.getElementById("addToListBtn").addEventListener("click", () => {
   if (currentProductIndex !== null) {
-    addToShoppingList(currentProductIndex);
+    // Use the filtered products array
+    const product = filteredProducts[currentProductIndex];
+    addToShoppingList(product);
     document.getElementById("modal").classList.add("hidden");
     currentProductIndex = null;
   }
@@ -421,10 +430,9 @@ document.getElementById("clearListBtn").addEventListener("click", () => {
 // Search functionality scoped to current category
 document.getElementById("searchInput").addEventListener("input", (e) => {
   const keyword = e.target.value.toLowerCase();
-  const filtered = allProducts.filter(
-    (p) =>
-      p.category.includes(currentCategory) &&
-      p.name.toLowerCase().includes(keyword)
+  const categoryProducts = filterProductsByCategory(currentCategory);
+  const filtered = categoryProducts.filter((p) =>
+    p.name.toLowerCase().includes(keyword)
   );
   renderProducts(filtered);
 });
