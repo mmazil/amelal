@@ -88,6 +88,14 @@ function calculateTotal() {
   }, 0);
 }
 
+// Calculate total savings
+function calculateTotalSavings() {
+  return shoppingList.reduce((total, item) => {
+    const savings = parsePrice(item.saved || "0");
+    return total + savings * item.quantity;
+  }, 0);
+}
+
 // Update shopping list display
 function updateShoppingListDisplay() {
   const listCount = document.getElementById("listCount");
@@ -96,6 +104,7 @@ function updateShoppingListDisplay() {
 
   const listItems = document.getElementById("shoppingListItems");
   const totalPrice = document.getElementById("totalPrice");
+  const totalSavings = document.getElementById("totalSavings");
 
   if (shoppingList.length === 0) {
     listItems.innerHTML =
@@ -111,6 +120,7 @@ function updateShoppingListDisplay() {
         <div class="flex-1">
           <h4 class="font-medium text-sm">${item.name}</h4>
           <p class="text-indigo-600 font-semibold text-sm">${item.price}</p>
+          ${item.saved ? `<p class="text-green-600 text-xs">Saves: ${item.saved}</p>` : ''}
         </div>
         <div class="flex items-center gap-2">
           <button onclick="updateQuantity('${item.name.replace(
@@ -143,6 +153,12 @@ function updateShoppingListDisplay() {
   }
 
   totalPrice.textContent = formatPrice(calculateTotal());
+  
+  // Update total savings display
+  const savingsAmount = calculateTotalSavings();
+  if (totalSavings) {
+    totalSavings.textContent = formatPrice(savingsAmount);
+  }
 }
 
 // Show notification
