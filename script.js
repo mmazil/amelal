@@ -351,6 +351,36 @@ window.openModal = function (index) {
     </div>
   `;
 
+  // Add alternatives section if available
+  if (product.alternatives && product.alternatives.length > 0) {
+    detailsHTML += `
+      <div class="bg-blue-50 p-4 rounded-lg">
+        <h4 class="font-semibold text-gray-800 mb-3">Alternative Products</h4>
+        <div class="space-y-3">
+          ${product.alternatives
+            .map(
+              (alt) => `
+            <div class="bg-white p-3 rounded border border-blue-200">
+              <div class="flex gap-3">
+                <img src="${alt.image}" alt="${alt.name}" class="w-12 h-12 object-contain rounded" />
+                <div class="flex-1">
+                  <h5 class="font-medium text-sm text-gray-800">${alt.name}</h5>
+                  <p class="text-xs text-gray-600 mb-1">${alt.description}</p>
+                  <div class="flex items-center justify-between">
+                    <span class="text-indigo-600 font-bold text-sm">${alt.price}</span>
+                    ${alt.volume ? `<span class="text-xs text-gray-500">${alt.volume}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+      </div>
+    `;
+  }
+
   productDetails.innerHTML = detailsHTML;
 
   modal.classList.remove("hidden");
