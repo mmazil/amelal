@@ -200,10 +200,10 @@ function renderProducts(products = null) {
 
   productsToRender.forEach((p, index) => {
     grid.innerHTML += `
-      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 h-full">
+      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col h-full">
         <img src="${p.image}" alt="${
         p.name
-      }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto md:mx-0 flex-shrink-0" />
+      }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
 
         <div class="flex flex-col justify-between flex-1">
           <div class="space-y-2">
@@ -236,7 +236,7 @@ function renderProducts(products = null) {
             }
           </div>
 
-          <div class="pt-4 flex flex-col md:flex-row gap-2 md:justify-end">
+          <div class="pt-4 flex justify-center">
             <button onclick="openModal(${index})"
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
               Détails du Produit
