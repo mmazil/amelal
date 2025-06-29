@@ -1,4 +1,5 @@
 let allProducts = [];
+let filteredProducts = [];
 let currentCategory = "Essentiels";
 let shoppingList = [];
 let currentProductIndex = null;
@@ -31,9 +32,7 @@ function formatPrice(price) {
 }
 
 // Add product to shopping list
-function addToShoppingList(productIndex) {
-  const product = allProducts[productIndex];
-
+function addToShoppingList(product) {
   // Check if product already exists in list
   const existingIndex = shoppingList.findIndex(
     (item) => item.name === product.name
@@ -88,6 +87,14 @@ function calculateTotal() {
   }, 0);
 }
 
+// Calculate total savings
+function calculateTotalSavings() {
+  return shoppingList.reduce((total, item) => {
+    const savings = parsePrice(item.saved || "0");
+    return total + savings * item.quantity;
+  }, 0);
+}
+
 // Update shopping list display
 function updateShoppingListDisplay() {
   const listCount = document.getElementById("listCount");
@@ -96,36 +103,38 @@ function updateShoppingListDisplay() {
 
   const listItems = document.getElementById("shoppingListItems");
   const totalPrice = document.getElementById("totalPrice");
+  const totalSavings = document.getElementById("totalSavings");
 
   if (shoppingList.length === 0) {
     listItems.innerHTML =
-      '<p class="text-gray-500 text-center py-4">Your shopping list is empty</p>';
+      '<p class="text-gray-500 text-center py-8">Your shopping list is empty</p>';
   } else {
     listItems.innerHTML = shoppingList
       .map(
         (item) => `
-      <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+      <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
         <img src="${item.image}" alt="${
           item.name
-        }" class="w-16 h-16 object-contain rounded" />
-        <div class="flex-1">
-          <h4 class="font-medium text-sm">${item.name}</h4>
+        }" class="w-12 h-12 md:w-16 md:h-16 object-contain rounded flex-shrink-0" />
+        <div class="flex-1 min-w-0">
+          <h4 class="font-medium text-sm leading-tight mb-1 truncate">${item.name}</h4>
           <p class="text-indigo-600 font-semibold text-sm">${item.price}</p>
+          ${item.saved ? `<p class="text-green-600 text-xs">Saves: ${item.saved}</p>` : ''}
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 flex-shrink-0">
           <button onclick="updateQuantity('${item.name.replace(
             /'/g,
             "\\'"
           )}', ${item.quantity - 1})" 
-                  class="w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-sm font-bold">
+                  class="w-7 h-7 md:w-8 md:h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-sm font-bold">
             -
           </button>
-          <span class="w-8 text-center font-medium">${item.quantity}</span>
+          <span class="w-6 md:w-8 text-center font-medium text-sm">${item.quantity}</span>
           <button onclick="updateQuantity('${item.name.replace(
             /'/g,
             "\\'"
           )}', ${item.quantity + 1})" 
-                  class="w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-sm font-bold">
+                  class="w-7 h-7 md:w-8 md:h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-sm font-bold">
             +
           </button>
         </div>
@@ -133,7 +142,7 @@ function updateShoppingListDisplay() {
           /'/g,
           "\\'"
         )}')" 
-                class="text-red-500 hover:text-red-700 p-1">
+                class="text-red-500 hover:text-red-700 p-1 flex-shrink-0">
           🗑️
         </button>
       </div>
@@ -143,6 +152,12 @@ function updateShoppingListDisplay() {
   }
 
   totalPrice.textContent = formatPrice(calculateTotal());
+  
+  // Update total savings display
+  const savingsAmount = calculateTotalSavings();
+  if (totalSavings) {
+    totalSavings.textContent = formatPrice(savingsAmount);
+  }
 }
 
 // Show notification
@@ -169,31 +184,38 @@ function showNotification(message, type = "info") {
   }, 3000);
 }
 
+// Filter products by category
+function filterProductsByCategory(category) {
+  return allProducts.filter((p) => p.category.includes(category));
+}
+
 // Render filtered products
-function renderProducts(products = allProducts) {
+function renderProducts(products = null) {
   const grid = document.getElementById("product-grid");
   grid.innerHTML = "";
 
-  products
-    .filter((p) => p.category.includes(currentCategory))
-    .forEach((p, index) => {
-      grid.innerHTML += `
+  // Use provided products or filter by current category
+  const productsToRender = products || filterProductsByCategory(currentCategory);
+  filteredProducts = productsToRender; // Store filtered products
+
+  productsToRender.forEach((p, index) => {
+    grid.innerHTML += `
       <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 h-full">
         <img src="${p.image}" alt="${
         p.name
-      }" class="w-32 h-32 object-contain rounded-md" />
+      }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto md:mx-0 flex-shrink-0" />
 
         <div class="flex flex-col justify-between flex-1">
           <div class="space-y-2">
-            <h3 class="text-lg font-semibold">${p.name}</h3>
-            <p class="text-sm text-gray-600">${p.description}</p>
+            <h3 class="text-base md:text-lg font-semibold leading-tight">${p.name}</h3>
+            <p class="text-sm text-gray-600 line-clamp-2">${p.description}</p>
 
             <!-- Price + Info Icon -->
             <div class="flex items-center gap-2">
               <p class="text-indigo-600 font-bold text-sm">Price: ${p.price}</p>
               <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
-                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-md rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
+                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
                   This is the recommended price, prices may vary by supermarket.
                 </span>
               </span>
@@ -206,7 +228,7 @@ function renderProducts(products = allProducts) {
                 <p class="text-green-600 font-medium text-sm">You Save: ${p.saved}</p>
                 <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
-                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-md rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
+                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
                   Your savings are averaged based on prices of similar products.
                 </span>
               </span></div>`
@@ -214,7 +236,7 @@ function renderProducts(products = allProducts) {
             }
           </div>
 
-          <div class="pt-4 justify-end flex">
+          <div class="pt-4 flex flex-col md:flex-row gap-2 md:justify-end">
             <button onclick="openModal(${index})"
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
               Product Details
@@ -223,7 +245,45 @@ function renderProducts(products = allProducts) {
         </div>
       </div>
     `;
+  });
+}
+
+// Mobile menu toggle
+function setupMobileMenu() {
+  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
     });
+  }
+}
+
+// Shopping list panel controls
+function setupShoppingListControls() {
+  const toggleListBtn = document.getElementById("toggleListBtn");
+  const closeListBtn = document.getElementById("closeListBtn");
+  const shoppingListPanel = document.getElementById("shoppingListPanel");
+
+  // Toggle shopping list panel
+  toggleListBtn.addEventListener("click", () => {
+    shoppingListPanel.classList.remove("hidden");
+  });
+
+  // Close shopping list panel (mobile)
+  if (closeListBtn) {
+    closeListBtn.addEventListener("click", () => {
+      shoppingListPanel.classList.add("hidden");
+    });
+  }
+
+  // Close when clicking backdrop
+  shoppingListPanel.addEventListener("click", (e) => {
+    if (e.target === shoppingListPanel) {
+      shoppingListPanel.classList.add("hidden");
+    }
+  });
 }
 
 // Fetch products and setup filters
@@ -233,14 +293,18 @@ fetch("products.json")
     allProducts = products;
     renderProducts();
     loadShoppingList();
+    setupMobileMenu();
+    setupShoppingListControls();
 
     // Filter button logic
     document.querySelectorAll(".filter-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach((b) => {
           b.classList.remove("bg-indigo-600", "text-white");
+          b.classList.add("hover:bg-indigo-100");
         });
         btn.classList.add("bg-indigo-600", "text-white");
+        btn.classList.remove("hover:bg-indigo-100");
         currentCategory = btn.dataset.category;
         document.getElementById("searchInput").value = ""; // clear search
         renderProducts();
@@ -250,7 +314,8 @@ fetch("products.json")
 
 // Open modal and show product details
 window.openModal = function (index) {
-  const product = allProducts[index];
+  // Use the filtered products array instead of allProducts
+  const product = filteredProducts[index];
   currentProductIndex = index;
   const modal = document.getElementById("modal");
   const modalTitle = document.getElementById("modalTitle");
@@ -263,14 +328,14 @@ window.openModal = function (index) {
     <div class="flex gap-4">
       <img src="${product.image}" alt="${
     product.name
-  }" class="w-24 h-24 object-contain rounded-lg" />
-      <div class="flex-1">
-        <h3 class="text-lg font-semibold mb-2">${product.name}</h3>
+  }" class="w-20 h-20 md:w-24 md:h-24 object-contain rounded-lg flex-shrink-0" />
+      <div class="flex-1 min-w-0">
+        <h3 class="text-lg font-semibold mb-2 leading-tight">${product.name}</h3>
         <p class="text-sm text-gray-600 mb-2">${product.description}</p>
       </div>
     </div>
     
-    <div class="grid grid-cols-2 gap-4 text-sm">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
       <div class="bg-gray-50 p-3 rounded">
         <span class="font-medium text-gray-700">Price:</span>
         <p class="text-indigo-600 font-bold">${product.price}</p>
@@ -335,6 +400,36 @@ window.openModal = function (index) {
     </div>
   `;
 
+  // Add alternatives section if available
+  if (product.alternatives && product.alternatives.length > 0) {
+    detailsHTML += `
+      <div class="bg-blue-50 p-4 rounded-lg">
+        <h4 class="font-semibold text-gray-800 mb-3">Alternative Products</h4>
+        <div class="space-y-3">
+          ${product.alternatives
+            .map(
+              (alt) => `
+            <div class="bg-white p-3 rounded border border-blue-200">
+              <div class="flex gap-3">
+                <img src="${alt.image}" alt="${alt.name}" class="w-10 h-10 md:w-12 md:h-12 object-contain rounded flex-shrink-0" />
+                <div class="flex-1 min-w-0">
+                  <h5 class="font-medium text-sm text-gray-800 leading-tight">${alt.name}</h5>
+                  <p class="text-xs text-gray-600 mb-1 line-clamp-2">${alt.description}</p>
+                  <div class="flex items-center justify-between">
+                    <span class="text-indigo-600 font-bold text-sm">${alt.price}</span>
+                    ${alt.volume ? `<span class="text-xs text-gray-500">${alt.volume}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+      </div>
+    `;
+  }
+
   productDetails.innerHTML = detailsHTML;
 
   modal.classList.remove("hidden");
@@ -350,16 +445,12 @@ document.getElementById("closeModal").addEventListener("click", () => {
 // Add to list button
 document.getElementById("addToListBtn").addEventListener("click", () => {
   if (currentProductIndex !== null) {
-    addToShoppingList(currentProductIndex);
+    // Use the filtered products array
+    const product = filteredProducts[currentProductIndex];
+    addToShoppingList(product);
     document.getElementById("modal").classList.add("hidden");
     currentProductIndex = null;
   }
-});
-
-// Toggle shopping list panel
-document.getElementById("toggleListBtn").addEventListener("click", () => {
-  const panel = document.getElementById("shoppingListPanel");
-  panel.classList.toggle("hidden");
 });
 
 // Clear shopping list
@@ -375,10 +466,9 @@ document.getElementById("clearListBtn").addEventListener("click", () => {
 // Search functionality scoped to current category
 document.getElementById("searchInput").addEventListener("input", (e) => {
   const keyword = e.target.value.toLowerCase();
-  const filtered = allProducts.filter(
-    (p) =>
-      p.category.includes(currentCategory) &&
-      p.name.toLowerCase().includes(keyword)
+  const categoryProducts = filterProductsByCategory(currentCategory);
+  const filtered = categoryProducts.filter((p) =>
+    p.name.toLowerCase().includes(keyword)
   );
   renderProducts(filtered);
 });
