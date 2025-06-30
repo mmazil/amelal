@@ -28,7 +28,7 @@ function parsePrice(priceStr) {
 
 // Format price for display
 function formatPrice(price) {
-  return `${price.toFixed(2)} MAD`;
+  return `${price.toFixed(2).replace('.', ',')} MAD`;
 }
 
 // Add product to shopping list
@@ -54,7 +54,7 @@ function addToShoppingList(product) {
   updateShoppingListDisplay();
 
   // Show success message
-  showNotification("Product added to list!", "success");
+  showNotification("Produit ajouté à la liste !", "success");
 }
 
 // Remove product from shopping list
@@ -62,7 +62,7 @@ function removeFromShoppingList(productName) {
   shoppingList = shoppingList.filter((item) => item.name !== productName);
   saveShoppingList();
   updateShoppingListDisplay();
-  showNotification("Product removed from list!", "info");
+  showNotification("Produit retiré de la liste !", "info");
 }
 
 // Update quantity in shopping list
@@ -107,7 +107,7 @@ function updateShoppingListDisplay() {
 
   if (shoppingList.length === 0) {
     listItems.innerHTML =
-      '<p class="text-gray-500 text-center py-8">Your shopping list is empty</p>';
+      '<p class="text-gray-500 text-center py-8">Votre liste de courses est vide</p>';
   } else {
     listItems.innerHTML = shoppingList
       .map(
@@ -119,7 +119,7 @@ function updateShoppingListDisplay() {
         <div class="flex-1 min-w-0">
           <h4 class="font-medium text-sm leading-tight mb-1 truncate">${item.name}</h4>
           <p class="text-indigo-600 font-semibold text-sm">${item.price}</p>
-          ${item.saved ? `<p class="text-green-600 text-xs">Saves: ${item.saved}</p>` : ''}
+          ${item.saved ? `<p class="text-green-600 text-xs">Économie : ${item.saved}</p>` : ''}
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
           <button onclick="updateQuantity('${item.name.replace(
@@ -200,10 +200,10 @@ function renderProducts(products = null) {
 
   productsToRender.forEach((p, index) => {
     grid.innerHTML += `
-      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col md:flex-row gap-4 h-full">
+      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col h-full">
         <img src="${p.image}" alt="${
         p.name
-      }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto md:mx-0 flex-shrink-0" />
+      }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
 
         <div class="flex flex-col justify-between flex-1">
           <div class="space-y-2">
@@ -212,11 +212,11 @@ function renderProducts(products = null) {
 
             <!-- Price + Info Icon -->
             <div class="flex items-center gap-2">
-              <p class="text-indigo-600 font-bold text-sm">Price: ${p.price}</p>
+              <p class="text-indigo-600 font-bold text-sm">Prix : ${p.price}</p>
               <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
-                  This is the recommended price, prices may vary by supermarket.
+                  Ceci est le prix recommandé, les prix peuvent varier selon le supermarché.
                 </span>
               </span>
             </div>
@@ -225,21 +225,21 @@ function renderProducts(products = null) {
               p.saved
                 ? `
                 <div class="flex items-center gap-2">
-                <p class="text-green-600 font-medium text-sm">You Save: ${p.saved}</p>
+                <p class="text-green-600 font-medium text-sm">Vous Économisez : ${p.saved}</p>
                 <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
-                  Your savings are averaged based on prices of similar products.
+                  Vos économies sont calculées en moyenne basées sur les prix de produits similaires.
                 </span>
               </span></div>`
                 : ""
             }
           </div>
 
-          <div class="pt-4 flex flex-col md:flex-row gap-2 md:justify-end">
+          <div class="pt-4 flex justify-center">
             <button onclick="openModal(${index})"
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
-              Product Details
+              Détails du Produit
             </button>
           </div>
         </div>
@@ -321,7 +321,7 @@ window.openModal = function (index) {
   const modalTitle = document.getElementById("modalTitle");
   const productDetails = document.getElementById("productDetails");
 
-  modalTitle.textContent = "Product Details";
+  modalTitle.textContent = "Détails du Produit";
 
   // Build product details HTML
   let detailsHTML = `
@@ -337,7 +337,7 @@ window.openModal = function (index) {
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
       <div class="bg-gray-50 p-3 rounded">
-        <span class="font-medium text-gray-700">Price:</span>
+        <span class="font-medium text-gray-700">Prix :</span>
         <p class="text-indigo-600 font-bold">${product.price}</p>
       </div>
       
@@ -345,7 +345,7 @@ window.openModal = function (index) {
         product.saved
           ? `
         <div class="bg-green-50 p-3 rounded">
-          <span class="font-medium text-gray-700">You Save:</span>
+          <span class="font-medium text-gray-700">Vous Économisez :</span>
           <p class="text-green-600 font-bold">${product.saved}</p>
         </div>
       `
@@ -356,7 +356,7 @@ window.openModal = function (index) {
         product.volume
           ? `
         <div class="bg-gray-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Volume:</span>
+          <span class="font-medium text-gray-700">Volume :</span>
           <p class="font-semibold">${product.volume}</p>
         </div>
       `
@@ -367,7 +367,7 @@ window.openModal = function (index) {
         product.weight
           ? `
         <div class="bg-gray-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Weight:</span>
+          <span class="font-medium text-gray-700">Poids :</span>
           <p class="font-semibold">${product.weight}</p>
         </div>
       `
@@ -378,7 +378,7 @@ window.openModal = function (index) {
         product.quantity
           ? `
         <div class="bg-gray-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Quantity:</span>
+          <span class="font-medium text-gray-700">Quantité :</span>
           <p class="font-semibold">${product.quantity}</p>
         </div>
       `
@@ -387,7 +387,7 @@ window.openModal = function (index) {
     </div>
     
     <div class="bg-gray-50 p-3 rounded">
-      <span class="font-medium text-gray-700">Categories:</span>
+      <span class="font-medium text-gray-700">Catégories :</span>
       <div class="flex flex-wrap gap-1 mt-1">
         ${product.category
           .map(
@@ -404,7 +404,7 @@ window.openModal = function (index) {
   if (product.alternatives && product.alternatives.length > 0) {
     detailsHTML += `
       <div class="bg-blue-50 p-4 rounded-lg">
-        <h4 class="font-semibold text-gray-800 mb-3">Alternative Products</h4>
+        <h4 class="font-semibold text-gray-800 mb-3">Produits Alternatifs</h4>
         <div class="space-y-3">
           ${product.alternatives
             .map(
@@ -455,11 +455,11 @@ document.getElementById("addToListBtn").addEventListener("click", () => {
 
 // Clear shopping list
 document.getElementById("clearListBtn").addEventListener("click", () => {
-  if (confirm("Are you sure you want to clear your shopping list?")) {
+  if (confirm("Êtes-vous sûr de vouloir vider votre liste de courses ?")) {
     shoppingList = [];
     saveShoppingList();
     updateShoppingListDisplay();
-    showNotification("Shopping list cleared!", "info");
+    showNotification("Liste de courses vidée !", "info");
   }
 });
 

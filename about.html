@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>À Propos - Budget Picks</title>
+    <meta
+      name="description"
+      content="Découvrez Budget Picks - votre source de confiance pour des alternatives abordables aux produits populaires."
+    />
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-VY0W80N9M1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-VY0W80N9M1");
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Mobile-First Header -->
+    <header class="bg-white shadow-md sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto px-4 py-3">
+        <!-- Mobile Header -->
+        <div class="flex justify-between items-center">
+          <h1 class="text-xl md:text-2xl font-bold text-indigo-600">
+            <a href="index.html">Budget Picks</a>
+          </h1>
+          
+          <!-- Mobile Menu Button & Shopping Cart -->
+          <div class="flex items-center gap-2">
+            <!-- Shopping Cart Button -->
+            <a href="index.html#shopping-list"
+              class="relative bg-indigo-600 text-white p-2 md:px-4 md:py-2 rounded-lg hover:bg-indigo-700 transition flex items-center gap-2"
+            >
+              <span class="text-lg">🛒</span>
+              <span class="hidden md:inline">Ma Liste</span>
+            </a>
+            
+            <!-- Mobile Menu Toggle -->
+            <button
+              id="mobileMenuBtn"
+              class="md:hidden p-2 text-gray-600 hover:text-indigo-600"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center justify-center gap-6 mt-3">
+          <a href="index.html" class="text-gray-600 hover:text-indigo-600 px-3 py-1 rounded transition">Accueil</a>
+          <a href="about.html" class="text-indigo-600 font-medium px-3 py-1 rounded transition">À Propos</a>
+          <a href="contact.html" class="text-gray-600 hover:text-indigo-600 px-3 py-1 rounded transition">Contact</a>
+        </nav>
+
+        <!-- Mobile Navigation Menu -->
+        <nav id="mobileMenu" class="hidden md:hidden mt-3 pb-3 border-t border-gray-200">
+          <div class="flex flex-col space-y-2 pt-3">
+            <a href="index.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded transition">Accueil</a>
+            <a href="about.html" class="text-indigo-600 font-medium px-3 py-2 rounded transition">À Propos</a>
+            <a href="contact.html" class="text-gray-600 hover:text-indigo-600 px-3 py-2 rounded transition">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-4 md:p-6 min-h-screen">
+      <!-- Hero Section -->
+      <div class="text-center mb-8 md:mb-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">À Propos de Budget Picks</h1>
+        <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+          Votre compagnon de confiance pour trouver des alternatives abordables aux produits du quotidien au Maroc.
+        </p>
+      </div>
+
+      <!-- Mission Section -->
+      <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+            <span class="text-indigo-600 text-xl">🎯</span>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800">Notre Mission</h2>
+        </div>
+        <p class="text-gray-600 leading-relaxed">
+          Chez Budget Picks, nous croyons que tout le monde mérite d'avoir accès à des produits de qualité à des prix abordables. 
+          Notre mission est d'aider les familles marocaines à économiser de l'argent sur leurs achats quotidiens en proposant des 
+          alternatives soigneusement sélectionnées aux produits populaires sans compromettre la qualité.
+        </p>
+      </div>
+
+      <!-- How It Works Section -->
+      <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+            <span class="text-green-600 text-xl">⚙️</span>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800">Comment Ça Marche</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-indigo-600 text-2xl">🔍</span>
+            </div>
+            <h3 class="font-semibold text-gray-800 mb-2">Parcourir les Produits</h3>
+            <p class="text-gray-600 text-sm">
+              Explorez notre gamme soigneusement sélectionnée de produits essentiels dans différentes catégories.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-indigo-600 text-2xl">💰</span>
+            </div>
+            <h3 class="font-semibold text-gray-800 mb-2">Comparer les Économies</h3>
+            <p class="text-gray-600 text-sm">
+              Voyez combien vous pouvez économiser par rapport aux produits similaires sur le marché.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-indigo-600 text-2xl">🛒</span>
+            </div>
+            <h3 class="font-semibold text-gray-800 mb-2">Acheter Intelligemment</h3>
+            <p class="text-gray-600 text-sm">
+              Ajoutez des produits à votre liste et suivez vos économies totales sur tous les articles.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Values Section -->
+      <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+            <span class="text-blue-600 text-xl">💎</span>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-800">Nos Valeurs</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="flex gap-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+              <span class="text-green-600">✓</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Qualité d'Abord</h3>
+              <p class="text-gray-600 text-sm">
+                Nous ne recommandons que des produits qui répondent à nos standards de qualité, vous garantissant un bon rapport qualité-prix.
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+              <span class="text-green-600">✓</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Transparence</h3>
+              <p class="text-gray-600 text-sm">
+                Toutes nos comparaisons de prix et calculs d'économies sont basés sur des données réelles du marché.
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+              <span class="text-green-600">✓</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Focus Local</h3>
+              <p class="text-gray-600 text-sm">
+                Nous comprenons le marché marocain et nous concentrons sur les produits disponibles localement.
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+              <span class="text-green-600">✓</span>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800 mb-1">Convivial</h3>
+              <p class="text-gray-600 text-sm">
+                Notre plateforme est conçue pour être simple et accessible à tous.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Section -->
+      <div class="bg-indigo-600 rounded-xl p-6 md:p-8 text-center text-white">
+        <h2 class="text-2xl font-bold mb-4">Commencez à Économiser Aujourd'hui</h2>
+        <p class="text-indigo-100 mb-6 max-w-2xl mx-auto">
+          Rejoignez des milliers de familles marocaines qui économisent déjà de l'argent sur leurs achats quotidiens avec Budget Picks.
+        </p>
+        <a href="index.html" 
+           class="inline-block bg-white text-indigo-600 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition">
+          Parcourir les Produits
+        </a>
+      </div>
+    </main>
+
+    <footer class="bg-white text-center py-4 border-t mt-12 text-sm text-gray-500">
+      &copy; 2025 Budget Picks. Tous droits réservés.
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+      }
+    </script>
+  </body>
+</html>
