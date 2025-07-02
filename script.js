@@ -1,4 +1,5 @@
 let allProducts = [];
+let allPromotions = [];
 let filteredProducts = [];
 let currentCategory = "Essentiels";
 let shoppingList = [];
@@ -86,6 +87,24 @@ function parsePrice(priceStr) {
 // Format price for display
 function formatPrice(price) {
   return `${price.toFixed(2).replace('.', ',')} MAD`;
+}
+
+// Check if promotion is still valid
+function isPromotionValid(promotionEnd) {
+  if (!promotionEnd) return true;
+  const endDate = new Date(promotionEnd);
+  const today = new Date();
+  return endDate >= today;
+}
+
+// Format promotion date for display
+function formatPromotionDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
 }
 
 // Add product to shopping list
@@ -243,8 +262,20 @@ function showNotification(message, type = "info") {
 
 // Filter products by category
 function filterProductsByCategory(category) {
-  const supermarketProducts = filterProductsBySupermarket(allProducts);
-  return supermarketProducts.filter((p) => p.category.includes(category));
+  let products = [];
+  
+  if (category === "Promotions") {
+    // Filter promotions and check if they're still valid
+    products = allPromotions.filter(promo => 
+      isPromotionValid(promo.promotion_end)
+    );
+  } else {
+    // Filter regular products
+    products = allProducts.filter((p) => p.category.includes(category));
+  }
+  
+  // Filter by supermarket
+  return filterProductsBySupermarket(products);
 }
 
 // Render filtered products
@@ -270,8 +301,27 @@ function renderProducts(products = null) {
   }
 
   productsToRender.forEach((p, index) => {
+    // Check if it's a promotion product
+    const isPromotion = p.category.includes("Promotions");
+    const promotionBadge = isPromotion ? `
+      <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+        🔥 PROMO
+      </div>
+    ` : '';
+
+    const originalPriceDisplay = isPromotion && p.original_price ? `
+      <p class="text-gray-400 line-through text-sm">Prix normal : ${p.original_price}</p>
+    ` : '';
+
+    const promotionDateDisplay = isPromotion && p.promotion_end ? `
+      <p class="text-red-600 text-xs font-medium">
+        Jusqu'au ${formatPromotionDate(p.promotion_end)}
+      </p>
+    ` : '';
+
     grid.innerHTML += `
-      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col h-full">
+      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col h-full relative">
+        ${promotionBadge}
         <img src="${p.image}" alt="${
         p.name
       }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
@@ -281,9 +331,11 @@ function renderProducts(products = null) {
             <h3 class="text-base md:text-lg font-semibold leading-tight">${p.name}</h3>
             <p class="text-sm text-gray-600 line-clamp-2">${p.description}</p>
 
+            ${originalPriceDisplay}
+
             <!-- Price + Info Icon -->
             <div class="flex items-center gap-2">
-              <p class="text-indigo-600 font-bold text-sm">Prix : ${p.price}</p>
+              <p class="text-indigo-600 font-bold text-sm ${isPromotion ? 'text-lg' : ''}">Prix : ${p.price}</p>
               <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
@@ -296,7 +348,7 @@ function renderProducts(products = null) {
               p.saved
                 ? `
                 <div class="flex items-center gap-2">
-                <p class="text-green-600 font-medium text-sm">Vous Économisez : ${p.saved}</p>
+                <p class="text-green-600 font-medium text-sm ${isPromotion ? 'font-bold' : ''}">Vous Économisez : ${p.saved}</p>
                 <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
@@ -305,6 +357,8 @@ function renderProducts(products = null) {
               </span></div>`
                 : ""
             }
+
+            ${promotionDateDisplay}
           </div>
 
           <div class="pt-4 flex justify-center">
@@ -364,11 +418,14 @@ function initializeApp() {
     return; // Exit if redirected to supermarket selection
   }
 
-  // Fetch products and setup filters
-  fetch("products.json")
-    .then((res) => res.json())
-    .then((products) => {
+  // Fetch both regular products and promotions
+  Promise.all([
+    fetch("products.json").then(res => res.json()),
+    fetch("promotions.json").then(res => res.json())
+  ])
+    .then(([products, promotions]) => {
       allProducts = products;
+      allPromotions = promotions;
       renderProducts();
       loadShoppingList();
       setupMobileMenu();
@@ -418,6 +475,9 @@ window.openModal = function (index) {
 
   modalTitle.textContent = "Détails du Produit";
 
+  // Check if it's a promotion product
+  const isPromotion = product.category.includes("Promotions");
+
   // Build product details HTML
   let detailsHTML = `
     <div class="flex gap-4">
@@ -427,13 +487,25 @@ window.openModal = function (index) {
       <div class="flex-1 min-w-0">
         <h3 class="text-lg font-semibold mb-2 leading-tight">${product.name}</h3>
         <p class="text-sm text-gray-600 mb-2">${product.description}</p>
+        ${isPromotion ? '<span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-bold">🔥 PROMOTION</span>' : ''}
       </div>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+      ${
+        isPromotion && product.original_price
+          ? `
+        <div class="bg-red-50 p-3 rounded">
+          <span class="font-medium text-gray-700">Prix Normal :</span>
+          <p class="text-gray-500 line-through">${product.original_price}</p>
+        </div>
+      `
+          : ""
+      }
+      
       <div class="bg-gray-50 p-3 rounded">
-        <span class="font-medium text-gray-700">Prix :</span>
-        <p class="text-indigo-600 font-bold">${product.price}</p>
+        <span class="font-medium text-gray-700">Prix ${isPromotion ? 'Promo' : ''} :</span>
+        <p class="text-indigo-600 font-bold ${isPromotion ? 'text-lg' : ''}">${product.price}</p>
       </div>
       
       ${
@@ -442,6 +514,17 @@ window.openModal = function (index) {
         <div class="bg-green-50 p-3 rounded">
           <span class="font-medium text-gray-700">Vous Économisez :</span>
           <p class="text-green-600 font-bold">${product.saved}</p>
+        </div>
+      `
+          : ""
+      }
+      
+      ${
+        isPromotion && product.promotion_end
+          ? `
+        <div class="bg-red-50 p-3 rounded">
+          <span class="font-medium text-gray-700">Promotion valide jusqu'au :</span>
+          <p class="text-red-600 font-bold">${formatPromotionDate(product.promotion_end)}</p>
         </div>
       `
           : ""
@@ -487,7 +570,7 @@ window.openModal = function (index) {
         ${product.category
           .map(
             (cat) => `
-          <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">${cat}</span>
+          <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded ${cat === 'Promotions' ? 'bg-red-100 text-red-800' : ''}">${cat}</span>
         `
           )
           .join("")}

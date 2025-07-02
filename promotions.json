@@ -1,0 +1,84 @@
+[
+  {
+    "name": "Huile de table 2L - FAYZ (Promotion Spéciale)",
+    "description": "Huile de table 2L - FAYZ en promotion exceptionnelle",
+    "volume": "2L",
+    "price": "25.95 MAD",
+    "original_price": "30.95 MAD",
+    "saved": "5.00 MAD",
+    "promotion_date": "2025-01-15",
+    "promotion_end": "2025-01-31",
+    "category": ["Alimentation", "Promotions"],
+    "supermarkets": ["marjane"],
+    "image": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/2c9f7d69-0345-4a4a-86cf-ec980d2a0b07.webp?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
+    "alternatives": [
+      {
+        "name": "Huile de table 2L - OLEOR",
+        "price": "32.90 MAD",
+        "volume": "2L",
+        "description": "Qualité premium reconnue",
+        "image": "https://images.deliveryhero.io/image/pim-glovo/64b673a69a6e474c914e5d8f.jpeg"
+      },
+      {
+        "name": "Huile de table 100% végétale 2L - CRISTAL",
+        "price": "34.94 MAD",
+        "volume": "2L",
+        "description": "100% végétale, qualité supérieure",
+        "image": "https://images.deliveryhero.io/image/menus-glovo/products/f0d7f1a5c7c65680a5555d2cd29b33d9e0435a95b49fe746dc8e6cae97e7f975.jpg"
+      }
+    ]
+  },
+  {
+    "name": "Lessive en poudre Automatic sachet 750g - ARIEL (Offre Limitée)",
+    "description": "Lessive en poudre Automatic sachet 750g - ARIEL en offre spéciale",
+    "weight": "0.75kg",
+    "price": "19.95 MAD",
+    "original_price": "23.95 MAD",
+    "saved": "4.00 MAD",
+    "promotion_date": "2025-01-10",
+    "promotion_end": "2025-01-25",
+    "category": ["Menage", "Promotions"],
+    "supermarkets": ["marjane"],
+    "image": "https://res.cloudinary.com/dcphm6bor/image/upload/q_75,f_auto,w_384/v1698919585/product/fb24fcb7a8cdaa9a02a04a5eb09055ad.webp",
+    "alternatives": [
+      {
+        "name": "Lessive en poudre Matic Confort Floral sachet 750g - OMO",
+        "price": "23.95 MAD",
+        "description": "Alternative avec parfum floral",
+        "image": "https://images.deliveryhero.io/image/global-catalog-glovo/nv-global-catalog/aa/e3b4ce6a-132a-4ebb-b59b-bd3a8b055b4d.png"
+      },
+      {
+        "name": "Lessive en poudre Automatic avec Downy sachet 750g - ARIEL",
+        "price": "22.50 MAD",
+        "description": "Avec adoucissant intégré",
+        "image": "https://images.deliveryhero.io/image/global-catalog-glovo/nv-global-catalog/aa/ee459a46-35a8-4a74-8198-26e8329cfdb0.png"
+      }
+    ]
+  },
+  {
+    "name": "Fromage fondu 8 portions - KHAYRAT (Méga Promo)",
+    "description": "Fromage fondu 8 portions - KHAYRAT en promotion exceptionnelle",
+    "price": "7.95 MAD",
+    "original_price": "9.95 MAD",
+    "saved": "2.00 MAD",
+    "promotion_date": "2025-01-12",
+    "promotion_end": "2025-02-05",
+    "category": ["Alimentation", "Promotions"],
+    "supermarkets": ["marjane"],
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/de/b6/8e3b935874da92796cef567eccdf.jpg",
+    "alternatives": [
+      {
+        "name": "Fromage fondu 8 portions - OR BLANC",
+        "price": "10.50 MAD",
+        "description": "Marque premium reconnue",
+        "image": "https://images.deliveryhero.io/image/menus-glovo/products/5134ec2d23796df602165e1d5401e169dc68da3c7ec86287da27200eab26f46a?t=W3siYXV0byI6eyJxIjoibG93In19XQ=="
+      },
+      {
+        "name": "Fromage fondu 8 portions - LA VACHE QUI RIT",
+        "price": "12.95 MAD",
+        "description": "Marque internationale de confiance",
+        "image": "https://images.deliveryhero.io/image/global-catalog-glovo/nv-global-catalog/aa/8c3e98f3-a56a-4d46-812d-db1a918308a4.png"
+      }
+    ]
+  }
+]
