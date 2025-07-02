@@ -10,5 +10,64 @@
     "promotion_end": "2025-07-31",
     "supermarkets": ["marjane"],
     "image": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/2c9f7d69-0345-4a4a-86cf-ec980d2a0b07.webp"
+  },
+  {
+    "name": "Plat four rond en verre - BIM",
+    "description": "Plat four rond en verre transparent, résistant à la chaleur",
+    "price": "17.90 MAD",
+    "original_price": "25.00 MAD",
+    "saved": "7.10 MAD",
+    "promotion_date": "2025-07-04",
+    "promotion_end": "2025-07-10",
+    "supermarkets": ["bim"],
+    "image": "https://images.pexels.com/photos/6419733/pexels-photo-6419733.jpeg"
+  },
+  {
+    "name": "Carafe en verre avec bouchon 1L - BIM",
+    "description": "Carafe élégante en verre avec bouchon hermétique",
+    "volume": "1L",
+    "price": "24.90 MAD",
+    "original_price": "35.00 MAD",
+    "saved": "10.10 MAD",
+    "promotion_date": "2025-07-04",
+    "promotion_end": "2025-07-10",
+    "supermarkets": ["bim"],
+    "image": "https://images.pexels.com/photos/4226796/pexels-photo-4226796.jpeg"
+  },
+  {
+    "name": "Pichet en verre avec couvercle 750ml - BIM",
+    "description": "Pichet pratique en verre avec couvercle étanche",
+    "volume": "750ml",
+    "price": "54.90 MAD",
+    "original_price": "75.00 MAD",
+    "saved": "20.10 MAD",
+    "promotion_date": "2025-07-04",
+    "promotion_end": "2025-07-10",
+    "supermarkets": ["bim"],
+    "image": "https://images.pexels.com/photos/6419733/pexels-photo-6419733.jpeg"
+  },
+  {
+    "name": "Pichet en verre 1L - BIM",
+    "description": "Pichet en verre transparent avec bec verseur",
+    "volume": "1L",
+    "price": "44.90 MAD",
+    "original_price": "65.00 MAD",
+    "saved": "20.10 MAD",
+    "promotion_date": "2025-07-04",
+    "promotion_end": "2025-07-10",
+    "supermarkets": ["bim"],
+    "image": "https://images.pexels.com/photos/4226796/pexels-photo-4226796.jpeg"
+  },
+  {
+    "name": "Set de 6 verres à thé avec pied - BIM",
+    "description": "Ensemble de 6 verres élégants à thé avec pied doré",
+    "quantity": "6 pièces",
+    "price": "34.90 MAD",
+    "original_price": "50.00 MAD",
+    "saved": "15.10 MAD",
+    "promotion_date": "2025-07-04",
+    "promotion_end": "2025-07-10",
+    "supermarkets": ["bim"],
+    "image": "https://images.pexels.com/photos/1028637/pexels-photo-1028637.jpeg"
   }
 ]
