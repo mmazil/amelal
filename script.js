@@ -269,13 +269,17 @@ function filterProductsByCategory(category) {
     products = allPromotions.filter(promo => 
       isPromotionValid(promo.promotion_end)
     );
+    console.log("Promotions found:", products.length, products); // Debug log
   } else {
     // Filter regular products
     products = allProducts.filter((p) => p.category.includes(category));
   }
   
   // Filter by supermarket
-  return filterProductsBySupermarket(products);
+  const filteredBySupermarket = filterProductsBySupermarket(products);
+  console.log("After supermarket filter:", filteredBySupermarket.length, filteredBySupermarket); // Debug log
+  
+  return filteredBySupermarket;
 }
 
 // Render filtered products
@@ -287,13 +291,18 @@ function renderProducts(products = null) {
   const productsToRender = products || filterProductsByCategory(currentCategory);
   filteredProducts = productsToRender; // Store filtered products
 
+  console.log("Rendering products:", productsToRender.length, "for category:", currentCategory); // Debug log
+
   if (productsToRender.length === 0) {
     grid.innerHTML = `
       <div class="col-span-full text-center py-12">
         <div class="text-gray-400 text-6xl mb-4">🏪</div>
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Aucun produit disponible</h3>
         <p class="text-gray-500">
-          Aucun produit de cette catégorie n'est disponible chez ${selectedSupermarket ? selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1) : 'ce supermarché'}.
+          ${currentCategory === "Promotions" 
+            ? "Aucune promotion active pour le moment." 
+            : `Aucun produit de cette catégorie n'est disponible chez ${selectedSupermarket ? selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1) : 'ce supermarché'}.`
+          }
         </p>
       </div>
     `;
@@ -418,6 +427,8 @@ function initializeApp() {
     return; // Exit if redirected to supermarket selection
   }
 
+  console.log("Selected supermarket:", selectedSupermarket); // Debug log
+
   // Fetch both regular products and promotions
   Promise.all([
     fetch("products.json").then(res => res.json()),
@@ -426,6 +437,10 @@ function initializeApp() {
     .then(([products, promotions]) => {
       allProducts = products;
       allPromotions = promotions;
+      
+      console.log("Loaded products:", allProducts.length); // Debug log
+      console.log("Loaded promotions:", allPromotions.length); // Debug log
+      
       renderProducts();
       loadShoppingList();
       setupMobileMenu();
@@ -441,6 +456,7 @@ function initializeApp() {
           btn.classList.add("bg-indigo-600", "text-white");
           btn.classList.remove("hover:bg-indigo-100");
           currentCategory = btn.dataset.category;
+          console.log("Category changed to:", currentCategory); // Debug log
           document.getElementById("searchInput").value = ""; // clear search
           renderProducts();
         });
