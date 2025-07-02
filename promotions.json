@@ -10,7 +10,7 @@
     "promotion_end": "2025-01-31",
     "category": ["Alimentation", "Promotions"],
     "supermarkets": ["marjane"],
-    "image": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/2c9f7d69-0345-4a4a-86cf-ec980d2a0b07.webp?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
+    "image": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/2c9f7d69-0345-4a4a-86cf-ec980d2a0b07.webp"
   },
   {
     "name": "Lessive en poudre Automatic sachet 750g - ARIEL (Offre Limitée)",
@@ -23,7 +23,7 @@
     "promotion_end": "2025-01-25",
     "category": ["Menage", "Promotions"],
     "supermarkets": ["marjane"],
-    "image": "https://res.cloudinary.com/dcphm6bor/image/upload/q_75,f_auto,w_384/v1698919585/product/fb24fcb7a8cdaa9a02a04a5eb09055ad.webp",
+    "image": "https://res.cloudinary.com/dcphm6bor/image/upload/q_75,f_auto,w_384/v1698919585/product/fb24fcb7a8cdaa9a02a04a5eb09055ad.webp"
   },
   {
     "name": "Fromage fondu 8 portions - KHAYRAT (Méga Promo)",
@@ -35,6 +35,6 @@
     "promotion_end": "2025-02-05",
     "category": ["Alimentation", "Promotions"],
     "supermarkets": ["marjane"],
-    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/de/b6/8e3b935874da92796cef567eccdf.jpg",
+    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/de/b6/8e3b935874da92796cef567eccdf.jpg"
   }
 ]
