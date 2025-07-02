@@ -3,6 +3,63 @@ let filteredProducts = [];
 let currentCategory = "Essentiels";
 let shoppingList = [];
 let currentProductIndex = null;
+let selectedSupermarket = null;
+
+// Check for selected supermarket on page load
+function checkSupermarketSelection() {
+  selectedSupermarket = localStorage.getItem('selectedSupermarket');
+  
+  if (!selectedSupermarket) {
+    // Redirect to supermarket selection page if no supermarket is selected
+    window.location.href = 'supermarkets.html';
+    return false;
+  }
+  
+  // Display selected supermarket in header
+  updateSupermarketDisplay();
+  return true;
+}
+
+// Update supermarket display in header
+function updateSupermarketDisplay() {
+  if (selectedSupermarket) {
+    const supermarketName = selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1);
+    
+    // Add supermarket indicator to header
+    const header = document.querySelector('header .max-w-6xl');
+    if (header && !document.getElementById('supermarket-indicator')) {
+      const indicator = document.createElement('div');
+      indicator.id = 'supermarket-indicator';
+      indicator.className = 'text-center py-2 bg-indigo-50 border-b';
+      indicator.innerHTML = `
+        <div class="flex items-center justify-center gap-2 text-sm">
+          <span class="text-indigo-600">🏪</span>
+          <span class="text-gray-700">Produits disponibles chez</span>
+          <span class="font-semibold text-indigo-600">${supermarketName}</span>
+          <button onclick="changeSupermarket()" class="text-indigo-600 hover:text-indigo-800 underline ml-2">
+            Changer
+          </button>
+        </div>
+      `;
+      header.appendChild(indicator);
+    }
+  }
+}
+
+// Change supermarket function
+function changeSupermarket() {
+  localStorage.removeItem('selectedSupermarket');
+  window.location.href = 'supermarkets.html';
+}
+
+// Filter products by supermarket
+function filterProductsBySupermarket(products) {
+  if (!selectedSupermarket) return [];
+  
+  return products.filter(product => 
+    product.supermarkets && product.supermarkets.includes(selectedSupermarket)
+  );
+}
 
 // Load shopping list from localStorage
 function loadShoppingList() {
@@ -186,7 +243,8 @@ function showNotification(message, type = "info") {
 
 // Filter products by category
 function filterProductsByCategory(category) {
-  return allProducts.filter((p) => p.category.includes(category));
+  const supermarketProducts = filterProductsBySupermarket(allProducts);
+  return supermarketProducts.filter((p) => p.category.includes(category));
 }
 
 // Render filtered products
@@ -197,6 +255,19 @@ function renderProducts(products = null) {
   // Use provided products or filter by current category
   const productsToRender = products || filterProductsByCategory(currentCategory);
   filteredProducts = productsToRender; // Store filtered products
+
+  if (productsToRender.length === 0) {
+    grid.innerHTML = `
+      <div class="col-span-full text-center py-12">
+        <div class="text-gray-400 text-6xl mb-4">🏪</div>
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Aucun produit disponible</h3>
+        <p class="text-gray-500">
+          Aucun produit de cette catégorie n'est disponible chez ${selectedSupermarket ? selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1) : 'ce supermarché'}.
+        </p>
+      </div>
+    `;
+    return;
+  }
 
   productsToRender.forEach((p, index) => {
     grid.innerHTML += `
@@ -286,31 +357,55 @@ function setupShoppingListControls() {
   });
 }
 
-// Fetch products and setup filters
-fetch("products.json")
-  .then((res) => res.json())
-  .then((products) => {
-    allProducts = products;
-    renderProducts();
-    loadShoppingList();
-    setupMobileMenu();
-    setupShoppingListControls();
+// Initialize the application
+function initializeApp() {
+  // Check if supermarket is selected
+  if (!checkSupermarketSelection()) {
+    return; // Exit if redirected to supermarket selection
+  }
 
-    // Filter button logic
-    document.querySelectorAll(".filter-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".filter-btn").forEach((b) => {
-          b.classList.remove("bg-indigo-600", "text-white");
-          b.classList.add("hover:bg-indigo-100");
+  // Fetch products and setup filters
+  fetch("products.json")
+    .then((res) => res.json())
+    .then((products) => {
+      allProducts = products;
+      renderProducts();
+      loadShoppingList();
+      setupMobileMenu();
+      setupShoppingListControls();
+
+      // Filter button logic
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".filter-btn").forEach((b) => {
+            b.classList.remove("bg-indigo-600", "text-white");
+            b.classList.add("hover:bg-indigo-100");
+          });
+          btn.classList.add("bg-indigo-600", "text-white");
+          btn.classList.remove("hover:bg-indigo-100");
+          currentCategory = btn.dataset.category;
+          document.getElementById("searchInput").value = ""; // clear search
+          renderProducts();
         });
-        btn.classList.add("bg-indigo-600", "text-white");
-        btn.classList.remove("hover:bg-indigo-100");
-        currentCategory = btn.dataset.category;
-        document.getElementById("searchInput").value = ""; // clear search
-        renderProducts();
       });
+    })
+    .catch((error) => {
+      console.error("Error loading products:", error);
+      const grid = document.getElementById("product-grid");
+      grid.innerHTML = `
+        <div class="col-span-full text-center py-12">
+          <div class="text-red-400 text-6xl mb-4">⚠️</div>
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">Erreur de chargement</h3>
+          <p class="text-gray-500">
+            Impossible de charger les produits. Veuillez rafraîchir la page.
+          </p>
+        </div>
+      `;
     });
-  });
+}
+
+// Start the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeApp);
 
 // Open modal and show product details
 window.openModal = function (index) {
@@ -398,6 +493,19 @@ window.openModal = function (index) {
           .join("")}
       </div>
     </div>
+
+    <div class="bg-blue-50 p-3 rounded">
+      <span class="font-medium text-gray-700">Disponible chez :</span>
+      <div class="flex flex-wrap gap-1 mt-1">
+        ${product.supermarkets
+          .map(
+            (supermarket) => `
+          <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded capitalize">${supermarket}</span>
+        `
+          )
+          .join("")}
+      </div>
+    </div>
   `;
 
   // Add alternatives section if available
@@ -480,3 +588,6 @@ document.getElementById("modal").addEventListener("click", (e) => {
     currentProductIndex = null;
   }
 });
+
+// Make changeSupermarket function globally available
+window.changeSupermarket = changeSupermarket;
