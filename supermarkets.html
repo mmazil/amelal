@@ -76,7 +76,7 @@
         </div>
 
         <!-- BIM -->
-        <div class="supermarket-card bg-white rounded-xl shadow-sm p-6 md:p-8 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-gray-200 opacity-60"
+        <div class="supermarket-card bg-white rounded-xl shadow-sm p-6 md:p-8 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-yellow-200"
              onclick="selectSupermarket('bim')">
           <div class="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 bg-yellow-100 rounded-full flex items-center justify-center">
             <div class="w-16 h-16 md:w-20 md:h-20 bg-yellow-500 rounded-full flex items-center justify-center">
@@ -87,8 +87,8 @@
           <p class="text-gray-600 text-sm md:text-base">
             Discount et prix bas garantis
           </p>
-          <div class="mt-4 inline-block bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
-            Bientôt disponible
+          <div class="mt-4 inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-medium">
+            🔥 Promotions Actives
           </div>
         </div>
 
@@ -129,14 +129,14 @@
 
     <script>
       function selectSupermarket(supermarket) {
-        if (supermarket === 'marjane') {
+        if (supermarket === 'marjane' || supermarket === 'bim') {
           // Store selected supermarket in localStorage
-          localStorage.setItem('selectedSupermarket', 'marjane');
+          localStorage.setItem('selectedSupermarket', supermarket);
           // Redirect to products page
           window.location.href = 'index.html';
         } else {
           // Show coming soon message for other supermarkets
-          alert('Ce supermarché sera bientôt disponible ! Pour le moment, seul Marjane est disponible.');
+          alert('Ce supermarché sera bientôt disponible ! Pour le moment, seuls Marjane et BIM sont disponibles.');
         }
       }
 
