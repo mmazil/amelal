@@ -265,21 +265,26 @@ function filterProductsByCategory(category) {
   let products = [];
   
   if (category === "Promotions") {
-    // Filter promotions and check if they're still valid
-    products = allPromotions.filter(promo => 
+    // For promotions, get all valid promotions and filter by supermarket
+    const validPromotions = allPromotions.filter(promo => 
       isPromotionValid(promo.promotion_end)
     );
-    console.log("Promotions found:", products.length, products); // Debug log
+    console.log("Valid promotions found:", validPromotions.length, validPromotions);
+    
+    // Filter by supermarket
+    products = filterProductsBySupermarket(validPromotions);
+    console.log("Promotions after supermarket filter:", products.length, products);
   } else {
-    // Filter regular products
-    products = allProducts.filter((p) => p.category.includes(category));
+    // Filter regular products by category
+    const categoryProducts = allProducts.filter((p) => p.category.includes(category));
+    console.log("Category products found:", categoryProducts.length, categoryProducts);
+    
+    // Filter by supermarket
+    products = filterProductsBySupermarket(categoryProducts);
+    console.log("Products after supermarket filter:", products.length, products);
   }
   
-  // Filter by supermarket
-  const filteredBySupermarket = filterProductsBySupermarket(products);
-  console.log("After supermarket filter:", filteredBySupermarket.length, filteredBySupermarket); // Debug log
-  
-  return filteredBySupermarket;
+  return products;
 }
 
 // Render filtered products
@@ -291,7 +296,7 @@ function renderProducts(products = null) {
   const productsToRender = products || filterProductsByCategory(currentCategory);
   filteredProducts = productsToRender; // Store filtered products
 
-  console.log("Rendering products:", productsToRender.length, "for category:", currentCategory); // Debug log
+  console.log("Rendering products:", productsToRender.length, "for category:", currentCategory);
 
   if (productsToRender.length === 0) {
     grid.innerHTML = `
@@ -311,7 +316,7 @@ function renderProducts(products = null) {
 
   productsToRender.forEach((p, index) => {
     // Check if it's a promotion product
-    const isPromotion = p.category.includes("Promotions");
+    const isPromotion = currentCategory === "Promotions";
     const promotionBadge = isPromotion ? `
       <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
         🔥 PROMO
@@ -427,7 +432,7 @@ function initializeApp() {
     return; // Exit if redirected to supermarket selection
   }
 
-  console.log("Selected supermarket:", selectedSupermarket); // Debug log
+  console.log("Selected supermarket:", selectedSupermarket);
 
   // Fetch both regular products and promotions
   Promise.all([
@@ -438,8 +443,8 @@ function initializeApp() {
       allProducts = products;
       allPromotions = promotions;
       
-      console.log("Loaded products:", allProducts.length); // Debug log
-      console.log("Loaded promotions:", allPromotions.length); // Debug log
+      console.log("Loaded products:", allProducts.length);
+      console.log("Loaded promotions:", allPromotions.length);
       
       renderProducts();
       loadShoppingList();
@@ -456,7 +461,7 @@ function initializeApp() {
           btn.classList.add("bg-indigo-600", "text-white");
           btn.classList.remove("hover:bg-indigo-100");
           currentCategory = btn.dataset.category;
-          console.log("Category changed to:", currentCategory); // Debug log
+          console.log("Category changed to:", currentCategory);
           document.getElementById("searchInput").value = ""; // clear search
           renderProducts();
         });
@@ -492,7 +497,7 @@ window.openModal = function (index) {
   modalTitle.textContent = "Détails du Produit";
 
   // Check if it's a promotion product
-  const isPromotion = product.category.includes("Promotions");
+  const isPromotion = currentCategory === "Promotions";
 
   // Build product details HTML
   let detailsHTML = `
@@ -580,18 +585,20 @@ window.openModal = function (index) {
       }
     </div>
     
+    ${!isPromotion && product.category ? `
     <div class="bg-gray-50 p-3 rounded">
       <span class="font-medium text-gray-700">Catégories :</span>
       <div class="flex flex-wrap gap-1 mt-1">
         ${product.category
           .map(
             (cat) => `
-          <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded ${cat === 'Promotions' ? 'bg-red-100 text-red-800' : ''}">${cat}</span>
+          <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">${cat}</span>
         `
           )
           .join("")}
       </div>
     </div>
+    ` : ''}
 
     <div class="bg-blue-50 p-3 rounded">
       <span class="font-medium text-gray-700">Disponible chez :</span>
@@ -607,8 +614,8 @@ window.openModal = function (index) {
     </div>
   `;
 
-  // Add alternatives section if available
-  if (product.alternatives && product.alternatives.length > 0) {
+  // Add alternatives section if available (only for regular products)
+  if (!isPromotion && product.alternatives && product.alternatives.length > 0) {
     detailsHTML += `
       <div class="bg-blue-50 p-4 rounded-lg">
         <h4 class="font-semibold text-gray-800 mb-3">Produits Alternatifs</h4>
