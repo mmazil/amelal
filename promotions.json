@@ -1,40 +1,5 @@
 [
   {
-    "name": "Huile de table 2L - FAYZ (Promotion Spéciale)",
-    "description": "Huile de table 2L - FAYZ en promotion exceptionnelle",
-    "volume": "2L",
-    "price": "25.95 MAD",
-    "original_price": "30.95 MAD",
-    "saved": "5.00 MAD",
-    "promotion_date": "2025-07-04",
-    "promotion_end": "2025-07-04",
-    "supermarkets": ["marjane"],
-    "image": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/2c9f7d69-0345-4a4a-86cf-ec980d2a0b07.webp"
-  },
-  {
-    "name": "Lessive en poudre Automatic sachet 750g - ARIEL (Offre Limitée)",
-    "description": "Lessive en poudre Automatic sachet 750g - ARIEL en offre spéciale",
-    "weight": "0.75kg",
-    "price": "19.95 MAD",
-    "original_price": "23.95 MAD",
-    "saved": "4.00 MAD",
-    "promotion_date": "2025-07-04",
-    "promotion_end": "2025-07-04",
-    "supermarkets": ["marjane"],
-    "image": "https://res.cloudinary.com/dcphm6bor/image/upload/q_75,f_auto,w_384/v1698919585/product/fb24fcb7a8cdaa9a02a04a5eb09055ad.webp"
-  },
-  {
-    "name": "Fromage fondu 8 portions - KHAYRAT (Méga Promo)",
-    "description": "Fromage fondu 8 portions - KHAYRAT en promotion exceptionnelle",
-    "price": "7.95 MAD",
-    "original_price": "9.95 MAD",
-    "saved": "2.00 MAD",
-    "promotion_date": "2025-07-04",
-    "promotion_end": "2025-07-04",
-    "supermarkets": ["marjane"],
-    "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/de/b6/8e3b935874da92796cef567eccdf.jpg"
-  },
-  {
     "name": "Plat four rond en verre - BIM",
     "description": "Plat four rond en verre transparent, résistant à la chaleur",
     "price": "17.90 MAD",
