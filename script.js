@@ -41,13 +41,23 @@ function isPromotionValid(promotionEnd) {
 }
 
 // Format promotion date for display
-function formatPromotionDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('fr-FR', {
+function formatPromotionDate(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  const options = {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
-  });
+  };
+  
+  // If start and end dates are the same, show only one date
+  if (startDate === endDate) {
+    return `le ${start.toLocaleDateString('fr-FR', options)}`;
+  } else {
+    // If different, show both dates
+    return `du ${start.toLocaleDateString('fr-FR', options)} au ${end.toLocaleDateString('fr-FR', options)}`;
+  }
 }
 
 // Add product to shopping list
@@ -264,9 +274,9 @@ function renderProducts(products = null) {
       <p class="text-gray-400 line-through text-sm">Prix normal : ${p.original_price}</p>
     ` : '';
 
-    const promotionDateDisplay = isPromotion && p.promotion_end ? `
+    const promotionDateDisplay = isPromotion && (p.promotion_date || p.promotion_end) ? `
       <p class="text-red-600 text-xs font-medium">
-        Jusqu'au ${formatPromotionDate(p.promotion_end)}
+        ${formatPromotionDate(p.promotion_date || p.promotion_end, p.promotion_end)}
       </p>
     ` : '';
 
@@ -483,11 +493,11 @@ window.openModal = function (index) {
       }
       
       ${
-        isPromotion && product.promotion_end
+        isPromotion && (product.promotion_date || product.promotion_end)
           ? `
         <div class="bg-red-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Promotion valide jusqu'au :</span>
-          <p class="text-red-600 font-bold">${formatPromotionDate(product.promotion_end)}</p>
+          <span class="font-medium text-gray-700">Promotion valide :</span>
+          <p class="text-red-600 font-bold">${formatPromotionDate(product.promotion_date || product.promotion_end, product.promotion_end)}</p>
         </div>
       `
           : ""
