@@ -6,8 +6,8 @@
     "price": "25.95 MAD",
     "original_price": "30.95 MAD",
     "saved": "5.00 MAD",
-    "promotion_date": "2025-01-15",
-    "promotion_end": "2025-01-31",
+    "promotion_date": "2025-07-15",
+    "promotion_end": "2025-07-31",
     "supermarkets": ["marjane"],
     "image": "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/2c9f7d69-0345-4a4a-86cf-ec980d2a0b07.webp"
   },
@@ -18,8 +18,8 @@
     "price": "19.95 MAD",
     "original_price": "23.95 MAD",
     "saved": "4.00 MAD",
-    "promotion_date": "2025-01-10",
-    "promotion_end": "2025-01-25",
+    "promotion_date": "2025-07-15",
+    "promotion_end": "2025-07-31",
     "supermarkets": ["marjane"],
     "image": "https://res.cloudinary.com/dcphm6bor/image/upload/q_75,f_auto,w_384/v1698919585/product/fb24fcb7a8cdaa9a02a04a5eb09055ad.webp"
   },
@@ -29,8 +29,8 @@
     "price": "7.95 MAD",
     "original_price": "9.95 MAD",
     "saved": "2.00 MAD",
-    "promotion_date": "2025-01-12",
-    "promotion_end": "2025-02-05",
+    "promotion_date": "2025-07-15",
+    "promotion_end": "2025-07-31",
     "supermarkets": ["marjane"],
     "image": "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/de/b6/8e3b935874da92796cef567eccdf.jpg"
   }
