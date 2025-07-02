@@ -4,63 +4,6 @@ let filteredProducts = [];
 let currentCategory = "Promotions";
 let shoppingList = [];
 let currentProductIndex = null;
-let selectedSupermarket = null;
-
-// Check for selected supermarket on page load
-function checkSupermarketSelection() {
-  selectedSupermarket = localStorage.getItem('selectedSupermarket');
-  
-  if (!selectedSupermarket) {
-    // Redirect to supermarket selection page if no supermarket is selected
-    window.location.href = 'supermarkets.html';
-    return false;
-  }
-  
-  // Display selected supermarket in header
-  updateSupermarketDisplay();
-  return true;
-}
-
-// Update supermarket display in header
-function updateSupermarketDisplay() {
-  if (selectedSupermarket) {
-    const supermarketName = selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1);
-    
-    // Add supermarket indicator to header
-    const header = document.querySelector('header .max-w-6xl');
-    if (header && !document.getElementById('supermarket-indicator')) {
-      const indicator = document.createElement('div');
-      indicator.id = 'supermarket-indicator';
-      indicator.className = 'text-center py-2 bg-indigo-50 border-b';
-      indicator.innerHTML = `
-        <div class="flex items-center justify-center gap-2 text-sm">
-          <span class="text-indigo-600">🏪</span>
-          <span class="text-gray-700">Produits disponibles chez</span>
-          <span class="font-semibold text-indigo-600">${supermarketName}</span>
-          <button onclick="changeSupermarket()" class="text-indigo-600 hover:text-indigo-800 underline ml-2">
-            Changer
-          </button>
-        </div>
-      `;
-      header.appendChild(indicator);
-    }
-  }
-}
-
-// Change supermarket function
-function changeSupermarket() {
-  localStorage.removeItem('selectedSupermarket');
-  window.location.href = 'supermarkets.html';
-}
-
-// Filter products by supermarket
-function filterProductsBySupermarket(products) {
-  if (!selectedSupermarket) return [];
-  
-  return products.filter(product => 
-    product.supermarkets && product.supermarkets.includes(selectedSupermarket)
-  );
-}
 
 // Load shopping list from localStorage
 function loadShoppingList() {
@@ -79,8 +22,8 @@ function saveShoppingList() {
 // Parse price string to number
 function parsePrice(priceStr) {
   if (!priceStr) return 0;
-  // Remove "MAD", "DH" and any non-numeric characters except decimal point
-  const numStr = priceStr.replace(/[^\d.]/g, "");
+  // Remove "MAD", "DH" and any non-numeric characters except decimal point and comma
+  const numStr = priceStr.replace(/[^\d.,]/g, "").replace(',', '.');
   return parseFloat(numStr) || 0;
 }
 
@@ -265,23 +208,17 @@ function filterProductsByCategory(category) {
   let products = [];
   
   if (category === "Promotions") {
-    // For promotions, get all valid promotions and filter by supermarket
+    // For promotions, get all valid promotions
     const validPromotions = allPromotions.filter(promo => 
       isPromotionValid(promo.promotion_end)
     );
     console.log("Valid promotions found:", validPromotions.length, validPromotions);
-    
-    // Filter by supermarket
-    products = filterProductsBySupermarket(validPromotions);
-    console.log("Promotions after supermarket filter:", products.length, products);
+    products = validPromotions;
   } else {
     // Filter regular products by category
     const categoryProducts = allProducts.filter((p) => p.category.includes(category));
     console.log("Category products found:", categoryProducts.length, categoryProducts);
-    
-    // Filter by supermarket
-    products = filterProductsBySupermarket(categoryProducts);
-    console.log("Products after supermarket filter:", products.length, products);
+    products = categoryProducts;
   }
   
   return products;
@@ -306,7 +243,7 @@ function renderProducts(products = null) {
         <p class="text-gray-500">
           ${currentCategory === "Promotions" 
             ? "Aucune promotion active pour le moment." 
-            : `Aucun produit de cette catégorie n'est disponible chez ${selectedSupermarket ? selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1) : 'ce supermarché'}.`
+            : `Aucun produit de cette catégorie n'est disponible.`
           }
         </p>
       </div>
@@ -331,6 +268,15 @@ function renderProducts(products = null) {
       <p class="text-red-600 text-xs font-medium">
         Jusqu'au ${formatPromotionDate(p.promotion_end)}
       </p>
+    ` : '';
+
+    // Show supermarket badge for all products
+    const supermarketBadge = p.supermarkets ? `
+      <div class="flex flex-wrap gap-1 mt-2">
+        ${p.supermarkets.map(supermarket => `
+          <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded capitalize">${supermarket}</span>
+        `).join('')}
+      </div>
     ` : '';
 
     grid.innerHTML += `
@@ -373,6 +319,7 @@ function renderProducts(products = null) {
             }
 
             ${promotionDateDisplay}
+            ${supermarketBadge}
           </div>
 
           <div class="pt-4 flex justify-center">
@@ -427,12 +374,7 @@ function setupShoppingListControls() {
 
 // Initialize the application
 function initializeApp() {
-  // Check if supermarket is selected
-  if (!checkSupermarketSelection()) {
-    return; // Exit if redirected to supermarket selection
-  }
-
-  console.log("Selected supermarket:", selectedSupermarket);
+  console.log("Initializing app...");
 
   // Fetch both regular products and promotions
   Promise.all([
@@ -694,6 +636,3 @@ document.getElementById("modal").addEventListener("click", (e) => {
     currentProductIndex = null;
   }
 });
-
-// Make changeSupermarket function globally available
-window.changeSupermarket = changeSupermarket;
