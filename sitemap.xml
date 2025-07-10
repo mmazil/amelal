@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://amelal.ma/</loc>
+    <lastmod>2025-01-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr-ma" href="https://amelal.ma/" />
+    <xhtml:link rel="alternate" hreflang="ar-ma" href="https://amelal.ma/ar/" />
+  </url>
+  <url>
+    <loc>https://amelal.ma/about.html</loc>
+    <lastmod>2025-01-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://amelal.ma/contact.html</loc>
+    <lastmod>2025-01-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

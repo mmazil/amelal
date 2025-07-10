@@ -1,65 +1,9 @@
 let allProducts = [];
+let allPromotions = [];
 let filteredProducts = [];
-let currentCategory = "Essentiels";
+let currentCategory = "Promotions";
 let shoppingList = [];
 let currentProductIndex = null;
-let selectedSupermarket = null;
-
-// Check for selected supermarket on page load
-function checkSupermarketSelection() {
-  selectedSupermarket = localStorage.getItem('selectedSupermarket');
-  
-  if (!selectedSupermarket) {
-    // Redirect to supermarket selection page if no supermarket is selected
-    window.location.href = 'supermarkets.html';
-    return false;
-  }
-  
-  // Display selected supermarket in header
-  updateSupermarketDisplay();
-  return true;
-}
-
-// Update supermarket display in header
-function updateSupermarketDisplay() {
-  if (selectedSupermarket) {
-    const supermarketName = selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1);
-    
-    // Add supermarket indicator to header
-    const header = document.querySelector('header .max-w-6xl');
-    if (header && !document.getElementById('supermarket-indicator')) {
-      const indicator = document.createElement('div');
-      indicator.id = 'supermarket-indicator';
-      indicator.className = 'text-center py-2 bg-indigo-50 border-b';
-      indicator.innerHTML = `
-        <div class="flex items-center justify-center gap-2 text-sm">
-          <span class="text-indigo-600">🏪</span>
-          <span class="text-gray-700">Produits disponibles chez</span>
-          <span class="font-semibold text-indigo-600">${supermarketName}</span>
-          <button onclick="changeSupermarket()" class="text-indigo-600 hover:text-indigo-800 underline ml-2">
-            Changer
-          </button>
-        </div>
-      `;
-      header.appendChild(indicator);
-    }
-  }
-}
-
-// Change supermarket function
-function changeSupermarket() {
-  localStorage.removeItem('selectedSupermarket');
-  window.location.href = 'supermarkets.html';
-}
-
-// Filter products by supermarket
-function filterProductsBySupermarket(products) {
-  if (!selectedSupermarket) return [];
-  
-  return products.filter(product => 
-    product.supermarkets && product.supermarkets.includes(selectedSupermarket)
-  );
-}
 
 // Load shopping list from localStorage
 function loadShoppingList() {
@@ -78,14 +22,42 @@ function saveShoppingList() {
 // Parse price string to number
 function parsePrice(priceStr) {
   if (!priceStr) return 0;
-  // Remove "MAD", "DH" and any non-numeric characters except decimal point
-  const numStr = priceStr.replace(/[^\d.]/g, "");
+  // Remove "MAD", "DH" and any non-numeric characters except decimal point and comma
+  const numStr = priceStr.replace(/[^\d.,]/g, "").replace(',', '.');
   return parseFloat(numStr) || 0;
 }
 
 // Format price for display
 function formatPrice(price) {
   return `${price.toFixed(2).replace('.', ',')} MAD`;
+}
+
+// Check if promotion is still valid
+function isPromotionValid(promotionEnd) {
+  if (!promotionEnd) return true;
+  const endDate = new Date(promotionEnd);
+  const today = new Date();
+  return endDate >= today;
+}
+
+// Format promotion date for display
+function formatPromotionDate(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  const options = {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  };
+  
+  // If start and end dates are the same, show only one date
+  if (startDate === endDate) {
+    return `le ${start.toLocaleDateString('fr-FR', options)}`;
+  } else {
+    // If different, show both dates
+    return `du ${start.toLocaleDateString('fr-FR', options)} au ${end.toLocaleDateString('fr-FR', options)}`;
+  }
 }
 
 // Add product to shopping list
@@ -243,8 +215,23 @@ function showNotification(message, type = "info") {
 
 // Filter products by category
 function filterProductsByCategory(category) {
-  const supermarketProducts = filterProductsBySupermarket(allProducts);
-  return supermarketProducts.filter((p) => p.category.includes(category));
+  let products = [];
+  
+  if (category === "Promotions") {
+    // For promotions, get all valid promotions
+    const validPromotions = allPromotions.filter(promo => 
+      isPromotionValid(promo.promotion_end)
+    );
+    console.log("Valid promotions found:", validPromotions.length, validPromotions);
+    products = validPromotions;
+  } else {
+    // Filter regular products by category
+    const categoryProducts = allProducts.filter((p) => p.category.includes(category));
+    console.log("Category products found:", categoryProducts.length, categoryProducts);
+    products = categoryProducts;
+  }
+  
+  return products;
 }
 
 // Render filtered products
@@ -256,13 +243,18 @@ function renderProducts(products = null) {
   const productsToRender = products || filterProductsByCategory(currentCategory);
   filteredProducts = productsToRender; // Store filtered products
 
+  console.log("Rendering products:", productsToRender.length, "for category:", currentCategory);
+
   if (productsToRender.length === 0) {
     grid.innerHTML = `
       <div class="col-span-full text-center py-12">
         <div class="text-gray-400 text-6xl mb-4">🏪</div>
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Aucun produit disponible</h3>
         <p class="text-gray-500">
-          Aucun produit de cette catégorie n'est disponible chez ${selectedSupermarket ? selectedSupermarket.charAt(0).toUpperCase() + selectedSupermarket.slice(1) : 'ce supermarché'}.
+          ${currentCategory === "Promotions" 
+            ? "Aucune promotion active pour le moment." 
+            : `Aucun produit de cette catégorie n'est disponible.`
+          }
         </p>
       </div>
     `;
@@ -270,8 +262,36 @@ function renderProducts(products = null) {
   }
 
   productsToRender.forEach((p, index) => {
+    // Check if it's a promotion product
+    const isPromotion = currentCategory === "Promotions";
+    const promotionBadge = isPromotion ? `
+      <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+        🔥 PROMO
+      </div>
+    ` : '';
+
+    const originalPriceDisplay = isPromotion && p.original_price ? `
+      <p class="text-gray-400 line-through text-sm">Prix normal : ${p.original_price}</p>
+    ` : '';
+
+    const promotionDateDisplay = isPromotion && (p.promotion_date || p.promotion_end) ? `
+      <p class="text-red-600 text-xs font-medium">
+        ${formatPromotionDate(p.promotion_date || p.promotion_end, p.promotion_end)}
+      </p>
+    ` : '';
+
+    // Show supermarket badge for all products
+    const supermarketBadge = p.supermarkets ? `
+      <div class="flex flex-wrap gap-1 mt-2">
+        ${p.supermarkets.map(supermarket => `
+          <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded capitalize">${supermarket}</span>
+        `).join('')}
+      </div>
+    ` : '';
+
     grid.innerHTML += `
-      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col h-full">
+      <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col h-full relative">
+        ${promotionBadge}
         <img src="${p.image}" alt="${
         p.name
       }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
@@ -281,9 +301,11 @@ function renderProducts(products = null) {
             <h3 class="text-base md:text-lg font-semibold leading-tight">${p.name}</h3>
             <p class="text-sm text-gray-600 line-clamp-2">${p.description}</p>
 
+            ${originalPriceDisplay}
+
             <!-- Price + Info Icon -->
             <div class="flex items-center gap-2">
-              <p class="text-indigo-600 font-bold text-sm">Prix : ${p.price}</p>
+              <p class="text-indigo-600 font-bold text-sm ${isPromotion ? 'text-lg' : ''}">Prix : ${p.price}</p>
               <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
@@ -296,7 +318,7 @@ function renderProducts(products = null) {
               p.saved
                 ? `
                 <div class="flex items-center gap-2">
-                <p class="text-green-600 font-medium text-sm">Vous Économisez : ${p.saved}</p>
+                <p class="text-green-600 font-medium text-sm ${isPromotion ? 'font-bold' : ''}">Vous Économisez : ${p.saved}</p>
                 <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
@@ -305,6 +327,9 @@ function renderProducts(products = null) {
               </span></div>`
                 : ""
             }
+
+            ${promotionDateDisplay}
+            ${supermarketBadge}
           </div>
 
           <div class="pt-4 flex justify-center">
@@ -359,16 +384,32 @@ function setupShoppingListControls() {
 
 // Initialize the application
 function initializeApp() {
-  // Check if supermarket is selected
-  if (!checkSupermarketSelection()) {
-    return; // Exit if redirected to supermarket selection
+  console.log("Initializing app...");
+  
+  // Add SEO-friendly page title updates based on category
+  function updatePageTitle(category) {
+    const titles = {
+      "Promotions": "🔥 Promotions Maroc 2025 | Amelal ⴰⵎⵍⴰⵍ | Offres Marjane BIM",
+      "Essentiels": "Produits Essentiels Pas Chers Maroc | Amelal ⴰⵎⵍⴰⵍ",
+      "Alimentation": "Alimentation Pas Chère Maroc | Promotions Alimentaires | Amelal",
+      "Boissons": "Boissons Pas Chères Maroc | Offres Boissons | Amelal ⴰⵎⵍⴰⵍ",
+      "Menage": "Produits Ménage Pas Chers | Promotions Hygiène Maroc | Amelal"
+    };
+    document.title = titles[category] || "Amelal - Promotions Maroc | Produits Pas Chers";
   }
 
-  // Fetch products and setup filters
-  fetch("products.json")
-    .then((res) => res.json())
-    .then((products) => {
+  // Fetch both regular products and promotions
+  Promise.all([
+    fetch("products.json").then(res => res.json()),
+    fetch("promotions.json").then(res => res.json())
+  ])
+    .then(([products, promotions]) => {
       allProducts = products;
+      allPromotions = promotions;
+      
+      console.log("Loaded products:", allProducts.length);
+      console.log("Loaded promotions:", allPromotions.length);
+      
       renderProducts();
       loadShoppingList();
       setupMobileMenu();
@@ -384,6 +425,8 @@ function initializeApp() {
           btn.classList.add("bg-indigo-600", "text-white");
           btn.classList.remove("hover:bg-indigo-100");
           currentCategory = btn.dataset.category;
+          console.log("Category changed to:", currentCategory);
+          updatePageTitle(currentCategory);
           document.getElementById("searchInput").value = ""; // clear search
           renderProducts();
         });
@@ -418,6 +461,9 @@ window.openModal = function (index) {
 
   modalTitle.textContent = "Détails du Produit";
 
+  // Check if it's a promotion product
+  const isPromotion = currentCategory === "Promotions";
+
   // Build product details HTML
   let detailsHTML = `
     <div class="flex gap-4">
@@ -427,13 +473,25 @@ window.openModal = function (index) {
       <div class="flex-1 min-w-0">
         <h3 class="text-lg font-semibold mb-2 leading-tight">${product.name}</h3>
         <p class="text-sm text-gray-600 mb-2">${product.description}</p>
+        ${isPromotion ? '<span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-bold">🔥 PROMOTION</span>' : ''}
       </div>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+      ${
+        isPromotion && product.original_price
+          ? `
+        <div class="bg-red-50 p-3 rounded">
+          <span class="font-medium text-gray-700">Prix Normal :</span>
+          <p class="text-gray-500 line-through">${product.original_price}</p>
+        </div>
+      `
+          : ""
+      }
+      
       <div class="bg-gray-50 p-3 rounded">
-        <span class="font-medium text-gray-700">Prix :</span>
-        <p class="text-indigo-600 font-bold">${product.price}</p>
+        <span class="font-medium text-gray-700">Prix ${isPromotion ? 'Promo' : ''} :</span>
+        <p class="text-indigo-600 font-bold ${isPromotion ? 'text-lg' : ''}">${product.price}</p>
       </div>
       
       ${
@@ -442,6 +500,17 @@ window.openModal = function (index) {
         <div class="bg-green-50 p-3 rounded">
           <span class="font-medium text-gray-700">Vous Économisez :</span>
           <p class="text-green-600 font-bold">${product.saved}</p>
+        </div>
+      `
+          : ""
+      }
+      
+      ${
+        isPromotion && (product.promotion_date || product.promotion_end)
+          ? `
+        <div class="bg-red-50 p-3 rounded">
+          <span class="font-medium text-gray-700">Promotion valide :</span>
+          <p class="text-red-600 font-bold">${formatPromotionDate(product.promotion_date || product.promotion_end, product.promotion_end)}</p>
         </div>
       `
           : ""
@@ -481,6 +550,7 @@ window.openModal = function (index) {
       }
     </div>
     
+    ${!isPromotion && product.category ? `
     <div class="bg-gray-50 p-3 rounded">
       <span class="font-medium text-gray-700">Catégories :</span>
       <div class="flex flex-wrap gap-1 mt-1">
@@ -493,6 +563,7 @@ window.openModal = function (index) {
           .join("")}
       </div>
     </div>
+    ` : ''}
 
     <div class="bg-blue-50 p-3 rounded">
       <span class="font-medium text-gray-700">Disponible chez :</span>
@@ -508,8 +579,8 @@ window.openModal = function (index) {
     </div>
   `;
 
-  // Add alternatives section if available
-  if (product.alternatives && product.alternatives.length > 0) {
+  // Add alternatives section if available (only for regular products)
+  if (!isPromotion && product.alternatives && product.alternatives.length > 0) {
     detailsHTML += `
       <div class="bg-blue-50 p-4 rounded-lg">
         <h4 class="font-semibold text-gray-800 mb-3">Produits Alternatifs</h4>
@@ -588,6 +659,3 @@ document.getElementById("modal").addEventListener("click", (e) => {
     currentProductIndex = null;
   }
 });
-
-// Make changeSupermarket function globally available
-window.changeSupermarket = changeSupermarket;
