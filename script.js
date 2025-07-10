@@ -1,7 +1,7 @@
 let allProducts = [];
 let allPromotions = [];
 let filteredProducts = [];
-let currentCategory = "Promotions";
+let currentCategory = "Essentiels";
 let shoppingList = [];
 let currentProductIndex = null;
 
