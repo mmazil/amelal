@@ -385,6 +385,18 @@ function setupShoppingListControls() {
 // Initialize the application
 function initializeApp() {
   console.log("Initializing app...");
+  
+  // Add SEO-friendly page title updates based on category
+  function updatePageTitle(category) {
+    const titles = {
+      "Promotions": "🔥 Promotions Maroc 2025 | Amelal ⴰⵎⵍⴰⵍ | Offres Marjane BIM",
+      "Essentiels": "Produits Essentiels Pas Chers Maroc | Amelal ⴰⵎⵍⴰⵍ",
+      "Alimentation": "Alimentation Pas Chère Maroc | Promotions Alimentaires | Amelal",
+      "Boissons": "Boissons Pas Chères Maroc | Offres Boissons | Amelal ⴰⵎⵍⴰⵍ",
+      "Menage": "Produits Ménage Pas Chers | Promotions Hygiène Maroc | Amelal"
+    };
+    document.title = titles[category] || "Amelal - Promotions Maroc | Produits Pas Chers";
+  }
 
   // Fetch both regular products and promotions
   Promise.all([
@@ -414,6 +426,7 @@ function initializeApp() {
           btn.classList.remove("hover:bg-indigo-100");
           currentCategory = btn.dataset.category;
           console.log("Category changed to:", currentCategory);
+          updatePageTitle(currentCategory);
           document.getElementById("searchInput").value = ""; // clear search
           renderProducts();
         });
