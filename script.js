@@ -1,7 +1,7 @@
 let allProducts = [];
 let allPromotions = [];
 let filteredProducts = [];
-let currentCategory = "Essentiels";
+let currentCategory = "Promotions";
 let shoppingList = [];
 let currentProductIndex = null;
 
@@ -23,13 +23,13 @@ function saveShoppingList() {
 function parsePrice(priceStr) {
   if (!priceStr) return 0;
   // Remove "MAD", "DH" and any non-numeric characters except decimal point and comma
-  const numStr = priceStr.replace(/[^\d.,]/g, "").replace(',', '.');
+  const numStr = priceStr.replace(/[^\d.,]/g, "").replace(",", ".");
   return parseFloat(numStr) || 0;
 }
 
 // Format price for display
 function formatPrice(price) {
-  return `${price.toFixed(2).replace('.', ',')} MAD`;
+  return `${price.toFixed(2).replace(".", ",")} MAD`;
 }
 
 // Check if promotion is still valid
@@ -44,19 +44,22 @@ function isPromotionValid(promotionEnd) {
 function formatPromotionDate(startDate, endDate) {
   const start = new Date(startDate);
   const end = new Date(endDate);
-  
+
   const options = {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   };
-  
+
   // If start and end dates are the same, show only one date
   if (startDate === endDate) {
-    return `le ${start.toLocaleDateString('fr-FR', options)}`;
+    return `le ${start.toLocaleDateString("fr-FR", options)}`;
   } else {
     // If different, show both dates
-    return `du ${start.toLocaleDateString('fr-FR', options)} au ${end.toLocaleDateString('fr-FR', options)}`;
+    return `du ${start.toLocaleDateString(
+      "fr-FR",
+      options
+    )} au ${end.toLocaleDateString("fr-FR", options)}`;
   }
 }
 
@@ -146,9 +149,15 @@ function updateShoppingListDisplay() {
           item.name
         }" class="w-12 h-12 md:w-16 md:h-16 object-contain rounded flex-shrink-0" />
         <div class="flex-1 min-w-0">
-          <h4 class="font-medium text-sm leading-tight mb-1 truncate">${item.name}</h4>
+          <h4 class="font-medium text-sm leading-tight mb-1 truncate">${
+            item.name
+          }</h4>
           <p class="text-indigo-600 font-semibold text-sm">${item.price}</p>
-          ${item.saved ? `<p class="text-green-600 text-xs">Économie : ${item.saved}</p>` : ''}
+          ${
+            item.saved
+              ? `<p class="text-green-600 text-xs">Économie : ${item.saved}</p>`
+              : ""
+          }
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
           <button onclick="updateQuantity('${item.name.replace(
@@ -158,7 +167,9 @@ function updateShoppingListDisplay() {
                   class="w-7 h-7 md:w-8 md:h-8 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center text-sm font-bold">
             -
           </button>
-          <span class="w-6 md:w-8 text-center font-medium text-sm">${item.quantity}</span>
+          <span class="w-6 md:w-8 text-center font-medium text-sm">${
+            item.quantity
+          }</span>
           <button onclick="updateQuantity('${item.name.replace(
             /'/g,
             "\\'"
@@ -181,7 +192,7 @@ function updateShoppingListDisplay() {
   }
 
   totalPrice.textContent = formatPrice(calculateTotal());
-  
+
   // Update total savings display
   const savingsAmount = calculateTotalSavings();
   if (totalSavings) {
@@ -216,21 +227,34 @@ function showNotification(message, type = "info") {
 // Filter products by category
 function filterProductsByCategory(category) {
   let products = [];
-  
+
   if (category === "Promotions") {
     // For promotions, get all valid promotions
-    const validPromotions = allPromotions.filter(promo => 
+    const validPromotions = allPromotions.filter((promo) =>
       isPromotionValid(promo.promotion_end)
     );
-    console.log("Valid promotions found:", validPromotions.length, validPromotions);
+    console.log(
+      "Valid promotions found:",
+      validPromotions.length,
+      validPromotions
+    );
     products = validPromotions;
+  } else if (category === "Produits Pas Chers") {
+    // For cheap products, get all regular products regardless of their specific category
+    products = allProducts;
   } else {
     // Filter regular products by category
-    const categoryProducts = allProducts.filter((p) => p.category.includes(category));
-    console.log("Category products found:", categoryProducts.length, categoryProducts);
+    const categoryProducts = allProducts.filter((p) =>
+      p.category.includes(category)
+    );
+    console.log(
+      "Category products found:",
+      categoryProducts.length,
+      categoryProducts
+    );
     products = categoryProducts;
   }
-  
+
   return products;
 }
 
@@ -240,10 +264,16 @@ function renderProducts(products = null) {
   grid.innerHTML = "";
 
   // Use provided products or filter by current category
-  const productsToRender = products || filterProductsByCategory(currentCategory);
+  const productsToRender =
+    products || filterProductsByCategory(currentCategory);
   filteredProducts = productsToRender; // Store filtered products
 
-  console.log("Rendering products:", productsToRender.length, "for category:", currentCategory);
+  console.log(
+    "Rendering products:",
+    productsToRender.length,
+    "for category:",
+    currentCategory
+  );
 
   if (productsToRender.length === 0) {
     grid.innerHTML = `
@@ -251,9 +281,10 @@ function renderProducts(products = null) {
         <div class="text-gray-400 text-6xl mb-4">🏪</div>
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Aucun produit disponible</h3>
         <p class="text-gray-500">
-          ${currentCategory === "Promotions" 
-            ? "Aucune promotion active pour le moment." 
-            : `Aucun produit de cette catégorie n'est disponible.`
+          ${
+            currentCategory === "Promotions"
+              ? "Aucune promotion active pour le moment."
+              : `Aucun produit de cette catégorie n'est disponible.`
           }
         </p>
       </div>
@@ -264,48 +295,69 @@ function renderProducts(products = null) {
   productsToRender.forEach((p, index) => {
     // Check if it's a promotion product
     const isPromotion = currentCategory === "Promotions";
-    const promotionBadge = isPromotion ? `
+    const promotionBadge = isPromotion
+      ? `
       <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
         🔥 PROMO
       </div>
-    ` : '';
+    `
+      : "";
 
-    const originalPriceDisplay = isPromotion && p.original_price ? `
+    const originalPriceDisplay =
+      isPromotion && p.original_price
+        ? `
       <p class="text-gray-400 line-through text-sm">Prix normal : ${p.original_price}</p>
-    ` : '';
+    `
+        : "";
 
-    const promotionDateDisplay = isPromotion && (p.promotion_date || p.promotion_end) ? `
+    const promotionDateDisplay =
+      isPromotion && (p.promotion_date || p.promotion_end)
+        ? `
       <p class="text-red-600 text-xs font-medium">
-        ${formatPromotionDate(p.promotion_date || p.promotion_end, p.promotion_end)}
+        ${formatPromotionDate(
+          p.promotion_date || p.promotion_end,
+          p.promotion_end
+        )}
       </p>
-    ` : '';
+    `
+        : "";
 
     // Show supermarket badge for all products
-    const supermarketBadge = p.supermarkets ? `
+    const supermarketBadge = p.supermarkets
+      ? `
       <div class="flex flex-wrap gap-1 mt-2">
-        ${p.supermarkets.map(supermarket => `
+        ${p.supermarkets
+          .map(
+            (supermarket) => `
           <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded capitalize">${supermarket}</span>
-        `).join('')}
+        `
+          )
+          .join("")}
       </div>
-    ` : '';
+    `
+      : "";
 
     grid.innerHTML += `
       <div class="bg-white rounded-xl shadow-sm p-4 hover:shadow-md transition flex flex-col h-full relative">
         ${promotionBadge}
         <img src="${p.image}" alt="${
-        p.name
-      }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
+      p.name
+    }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
 
         <div class="flex flex-col justify-between flex-1">
           <div class="space-y-2">
-            <h3 class="text-base md:text-lg font-semibold leading-tight">${p.name}</h3>
+            <h3 class="text-base md:text-lg font-semibold leading-tight">${
+              p.name
+            }</h3>
             <p class="text-sm text-gray-600 line-clamp-2">${p.description}</p>
 
             ${originalPriceDisplay}
 
             <!-- Price + Info Icon -->
             <div class="flex items-center gap-2">
-              <p class="text-indigo-600 font-bold text-sm ${isPromotion ? 'text-lg' : ''}">Prix : ${p.price}</p>
+              <p class="text-indigo-600 font-bold text-sm ${
+                isPromotion ? "text-lg" : ""
+              }">Prix : ${p.price}</p>
               <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
@@ -318,7 +370,9 @@ function renderProducts(products = null) {
               p.saved
                 ? `
                 <div class="flex items-center gap-2">
-                <p class="text-green-600 font-medium text-sm ${isPromotion ? 'font-bold' : ''}">Vous Économisez : ${p.saved}</p>
+                <p class="text-green-600 font-medium text-sm ${
+                  isPromotion ? "font-bold" : ""
+                }">Économisez : ${p.saved}</p>
                 <span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
@@ -385,31 +439,28 @@ function setupShoppingListControls() {
 // Initialize the application
 function initializeApp() {
   console.log("Initializing app...");
-  
+
   // Add SEO-friendly page title updates based on category
   function updatePageTitle(category) {
     const titles = {
-      "Promotions": "🔥 Promotions Maroc 2025 | Amelal ⴰⵎⵍⴰⵍ | Offres Marjane BIM",
-      "Essentiels": "Produits Essentiels Pas Chers Maroc | Amelal ⴰⵎⵍⴰⵍ",
-      "Alimentation": "Alimentation Pas Chère Maroc | Promotions Alimentaires | Amelal",
-      "Boissons": "Boissons Pas Chères Maroc | Offres Boissons | Amelal ⴰⵎⵍⴰⵍ",
-      "Menage": "Produits Ménage Pas Chers | Promotions Hygiène Maroc | Amelal"
+      Promotions:
+        "🔥 Promotions Maroc 2025 | Amelal ⴰⵎⵍⴰⵍ | Offres Marjane BIM",
+      "Produits Pas Chers":
+        "Produits Pas Chers Maroc | Alimentation Boissons Ménage | Amelal ⴰⵎⵍⴰⵍ",
     };
-    document.title = titles[category] || "Amelal - Promotions Maroc | Produits Pas Chers";
+    document.title =
+      titles[category] || "Amelal - Promotions Maroc | Produits Pas Chers";
   }
 
   // Fetch both regular products and promotions
-  Promise.all([
-    fetch("products.json").then(res => res.json()),
-    fetch("promotions.json").then(res => res.json())
-  ])
+  Promise.resolve([productsData, promotionsData])
     .then(([products, promotions]) => {
       allProducts = products;
       allPromotions = promotions;
-      
+
       console.log("Loaded products:", allProducts.length);
       console.log("Loaded promotions:", allPromotions.length);
-      
+
       renderProducts();
       loadShoppingList();
       setupMobileMenu();
@@ -448,7 +499,7 @@ function initializeApp() {
 }
 
 // Start the application when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeApp);
+document.addEventListener("DOMContentLoaded", initializeApp);
 
 // Open modal and show product details
 window.openModal = function (index) {
@@ -471,9 +522,15 @@ window.openModal = function (index) {
     product.name
   }" class="w-20 h-20 md:w-24 md:h-24 object-contain rounded-lg flex-shrink-0" />
       <div class="flex-1 min-w-0">
-        <h3 class="text-lg font-semibold mb-2 leading-tight">${product.name}</h3>
+        <h3 class="text-lg font-semibold mb-2 leading-tight">${
+          product.name
+        }</h3>
         <p class="text-sm text-gray-600 mb-2">${product.description}</p>
-        ${isPromotion ? '<span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-bold">🔥 PROMOTION</span>' : ''}
+        ${
+          isPromotion
+            ? '<span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-bold">🔥 PROMOTION</span>'
+            : ""
+        }
       </div>
     </div>
     
@@ -489,93 +546,52 @@ window.openModal = function (index) {
           : ""
       }
       
-      <div class="bg-gray-50 p-3 rounded">
-        <span class="font-medium text-gray-700">Prix ${isPromotion ? 'Promo' : ''} :</span>
-        <p class="text-indigo-600 font-bold ${isPromotion ? 'text-lg' : ''}">${product.price}</p>
+      <!-- Row 1: Prix and Économisez -->
+      <div class="bg-gray-50 p-2 rounded">
+        <span class="font-medium text-gray-700 text-xs">Prix ${
+          isPromotion ? "Promo" : ""
+        } :</span>
+        <p class="text-indigo-600 font-bold text-sm ${
+          isPromotion ? "text-base" : ""
+        }">${product.price}</p>
       </div>
       
-      ${
-        product.saved
-          ? `
-        <div class="bg-green-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Vous Économisez :</span>
-          <p class="text-green-600 font-bold">${product.saved}</p>
-        </div>
-      `
-          : ""
-      }
-      
-      ${
-        isPromotion && (product.promotion_date || product.promotion_end)
-          ? `
-        <div class="bg-red-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Promotion valide :</span>
-          <p class="text-red-600 font-bold">${formatPromotionDate(product.promotion_date || product.promotion_end, product.promotion_end)}</p>
-        </div>
-      `
-          : ""
-      }
-      
-      ${
-        product.volume
-          ? `
-        <div class="bg-gray-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Volume :</span>
-          <p class="font-semibold">${product.volume}</p>
-        </div>
-      `
-          : ""
-      }
-      
-      ${
-        product.weight
-          ? `
-        <div class="bg-gray-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Poids :</span>
-          <p class="font-semibold">${product.weight}</p>
-        </div>
-      `
-          : ""
-      }
-      
-      ${
-        product.quantity
-          ? `
-        <div class="bg-gray-50 p-3 rounded">
-          <span class="font-medium text-gray-700">Quantité :</span>
-          <p class="font-semibold">${product.quantity}</p>
-        </div>
-      `
-          : ""
-      }
-    </div>
-    
-    ${!isPromotion && product.category ? `
-    <div class="bg-gray-50 p-3 rounded">
-      <span class="font-medium text-gray-700">Catégories :</span>
-      <div class="flex flex-wrap gap-1 mt-1">
-        ${product.category
-          .map(
-            (cat) => `
-          <span class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded">${cat}</span>
-        `
-          )
-          .join("")}
+      <div class="bg-green-50 p-2 rounded">
+        <span class="font-medium text-gray-700 text-xs">Économisez :</span>
+        <p class="text-green-600 font-bold text-sm">${
+          product.saved || "0 MAD"
+        }</p>
       </div>
-    </div>
-    ` : ''}
-
-    <div class="bg-blue-50 p-3 rounded">
-      <span class="font-medium text-gray-700">Disponible chez :</span>
-      <div class="flex flex-wrap gap-1 mt-1">
-        ${product.supermarkets
-          .map(
-            (supermarket) => `
-          <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded capitalize">${supermarket}</span>
-        `
-          )
-          .join("")}
+      
+      <!-- Row 2: Volume and Disponible chez -->
+      <div class="bg-gray-50 p-2 rounded">
+        <span class="font-medium text-gray-700 text-xs">${
+          product.volume ? "Volume" : product.weight ? "Poids" : "Quantité"
+        } :</span>
+        <p class="font-semibold text-sm">${
+          product.volume || product.weight || product.quantity || "N/A"
+        }</p>
       </div>
+      
+      <div class="bg-blue-50 p-2 rounded">
+        <span class="font-medium text-gray-700 text-xs">Disponible chez :</span>
+        <div class="flex flex-wrap gap-1 mt-1">
+          ${product.supermarkets
+            .map(
+              (supermarket) => `
+            <span class="bg-blue-100 text-blue-800 text-xs px-1 py-0.5 rounded capitalize">${supermarket}</span>
+          `
+            )
+            .join("")}
+        </div>
+      </div>
+      
+      <!-- Empty fourth cell for promotions to maintain 2x2 grid -->
+      ${
+        isPromotion
+          ? '<div class="bg-gray-50 p-2 rounded opacity-50"></div>'
+          : ""
+      }
     </div>
   `;
 
@@ -590,13 +606,25 @@ window.openModal = function (index) {
               (alt) => `
             <div class="bg-white p-3 rounded border border-blue-200">
               <div class="flex gap-3">
-                <img src="${alt.image}" alt="${alt.name}" class="w-10 h-10 md:w-12 md:h-12 object-contain rounded flex-shrink-0" />
+                <img src="${alt.image}" alt="${
+                alt.name
+              }" class="w-10 h-10 md:w-12 md:h-12 object-contain rounded flex-shrink-0" />
                 <div class="flex-1 min-w-0">
-                  <h5 class="font-medium text-sm text-gray-800 leading-tight">${alt.name}</h5>
-                  <p class="text-xs text-gray-600 mb-1 line-clamp-2">${alt.description}</p>
+                  <h5 class="font-medium text-sm text-gray-800 leading-tight">${
+                    alt.name
+                  }</h5>
+                  <p class="text-xs text-gray-600 mb-1 line-clamp-2">${
+                    alt.description
+                  }</p>
                   <div class="flex items-center justify-between">
-                    <span class="text-indigo-600 font-bold text-sm">${alt.price}</span>
-                    ${alt.volume ? `<span class="text-xs text-gray-500">${alt.volume}</span>` : ''}
+                    <span class="text-indigo-600 font-bold text-sm">${
+                      alt.price
+                    }</span>
+                    ${
+                      alt.volume
+                        ? `<span class="text-xs text-gray-500">${alt.volume}</span>`
+                        : ""
+                    }
                   </div>
                 </div>
               </div>
