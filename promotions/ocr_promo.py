@@ -1,3 +1,7 @@
+# python3 -m venv ocr-env
+# source ocr-env/bin/activate
+# python3 ocr_promo.py ./
+
 import os
 import easyocr
 import json
@@ -61,7 +65,7 @@ def process_image(image_path, reader):
 
     promo = {
         "name": name,
-        "description": description,
+        # "description": description,
         "price": price,
         "original_price": original_price,
         "saved": saved,

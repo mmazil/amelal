@@ -349,7 +349,13 @@ function renderProducts(products = null) {
             <h3 class="text-base md:text-lg font-semibold leading-tight">${
               p.name
             }</h3>
-            <p class="text-sm text-gray-600 line-clamp-2">${p.description}</p>
+            ${
+              p.description
+                ? `<p class="text-sm text-gray-600 line-clamp-2">
+                  ${p.description}
+                </p>`
+                : ""
+            }
 
             ${originalPriceDisplay}
 
@@ -358,12 +364,16 @@ function renderProducts(products = null) {
               <p class="text-indigo-600 font-bold text-sm ${
                 isPromotion ? "text-lg" : ""
               }">Prix : ${p.price}</p>
-              <span class="text-gray-400 text-sm cursor-pointer group relative">
+              ${
+                !isPromotion
+                  ? `<span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
                   Ceci est le prix recommandé, les prix peuvent varier selon le supermarché.
                 </span>
-              </span>
+              </span>`
+                  : ""
+              }
             </div>
 
             ${
