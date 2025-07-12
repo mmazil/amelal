@@ -474,6 +474,10 @@ function initializeApp() {
   // Fetch both regular products and promotions
   Promise.resolve([productsData, promotionsData])
     .then(([products, promotions]) => {
+      promotions.sort(
+        (a, b) => new Date(a.promotion_end) - new Date(b.promotion_end)
+      );
+
       allProducts = products;
       allPromotions = promotions;
 
