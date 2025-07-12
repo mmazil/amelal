@@ -342,7 +342,7 @@ function renderProducts(products = null) {
         ${promotionBadge}
         <img src="${p.image}" alt="${
       p.name
-    }" class="w-24 h-24 md:w-32 md:h-32 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
+    }" class="w-40 h-40 md:w-60 md:h-60 object-contain rounded-md mx-auto mb-4 flex-shrink-0" />
 
         <div class="flex flex-col justify-between flex-1">
           <div class="space-y-2">
@@ -383,11 +383,15 @@ function renderProducts(products = null) {
                 <p class="text-green-600 font-medium text-sm ${
                   isPromotion ? "font-bold" : ""
                 }">Économisez : ${p.saved}</p>
-                <span class="text-gray-400 text-sm cursor-pointer group relative">
+                ${
+                  !isPromotion
+                    ? `<span class="text-gray-400 text-sm cursor-pointer group relative">
                 ℹ️
                 <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-60 bg-gray-800 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none z-10">
                   Vos économies sont calculées en moyenne basées sur les prix de produits similaires.
-                </span>
+                </span>`
+                    : ""
+                }
               </span></div>`
                 : ""
             }
@@ -574,14 +578,18 @@ window.openModal = function (index) {
       </div>
       
       <!-- Row 2: Volume and Disponible chez -->
-      <div class="bg-gray-50 p-2 rounded">
+      ${
+        product.volume || product.weight || product.quantity
+          ? `<div class="bg-gray-50 p-2 rounded">
         <span class="font-medium text-gray-700 text-xs">${
           product.volume ? "Volume" : product.weight ? "Poids" : "Quantité"
         } :</span>
         <p class="font-semibold text-sm">${
           product.volume || product.weight || product.quantity || "N/A"
         }</p>
-      </div>
+      </div>`
+          : ""
+      }
       
       <div class="bg-blue-50 p-2 rounded">
         <span class="font-medium text-gray-700 text-xs">Disponible chez :</span>
