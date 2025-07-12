@@ -304,7 +304,7 @@ function renderProducts(products = null) {
       : "";
 
     const originalPriceDisplay =
-      isPromotion && p.original_price
+      isPromotion && p.original_price && p.original_price !== "0.00 MAD"
         ? `
       <p class="text-gray-400 line-through text-sm">Prix normal : ${p.original_price}</p>
     `
@@ -377,7 +377,7 @@ function renderProducts(products = null) {
             </div>
 
             ${
-              p.saved
+              p.saved && p.saved !== "0.00 MAD"
                 ? `
                 <div class="flex items-center gap-2">
                 <p class="text-green-600 font-medium text-sm ${
@@ -400,7 +400,12 @@ function renderProducts(products = null) {
             ${supermarketBadge}
           </div>
 
-          <div class="pt-4 flex justify-center">
+          <div class="pt-4 flex flex-row justify-evenly">
+            <button
+              onclick="addToShoppingList(filteredProducts[${index}])"
+              class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
+              Ajouter à la Liste
+            </button>
             <button onclick="openModal(${index})"
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
               Détails du Produit
@@ -550,7 +555,9 @@ window.openModal = function (index) {
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
       ${
-        isPromotion && product.original_price
+        isPromotion &&
+        product.original_price &&
+        product.original_price !== "0.00 MAD"
           ? `
         <div class="bg-red-50 p-3 rounded">
           <span class="font-medium text-gray-700">Prix Normal :</span>
@@ -570,12 +577,16 @@ window.openModal = function (index) {
         }">${product.price}</p>
       </div>
       
-      <div class="bg-green-50 p-2 rounded">
+      ${
+        isPromotion && product.saved && product.saved !== "0.00 MAD"
+          ? `<div class="bg-green-50 p-2 rounded">
         <span class="font-medium text-gray-700 text-xs">Économisez :</span>
         <p class="text-green-600 font-bold text-sm">${
           product.saved || "0 MAD"
         }</p>
-      </div>
+      </div>`
+          : ""
+      }
       
       <!-- Row 2: Volume and Disponible chez -->
       ${
