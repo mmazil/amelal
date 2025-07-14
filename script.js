@@ -268,28 +268,35 @@ function filterProductsByCategory(category, supermarket = "Tous") {
 
 // Get unique supermarkets for current category
 function getAvailableSupermarkets(category) {
+  console.log("getAvailableSupermarkets called with category:", category);
   let products = [];
   
   if (category === "Promotions") {
     const validPromotions = allPromotions.filter((promo) =>
       isPromotionValid(promo.promotion_end)
     );
+    console.log("Valid promotions found:", validPromotions.length);
     products = validPromotions;
   } else if (category === "Produits Pas Chers") {
     products = allProducts;
+    console.log("Regular products found:", products.length);
   } else {
     products = allProducts.filter((p) =>
       p.category.includes(category)
     );
+    console.log("Category filtered products found:", products.length);
   }
 
   // Extract all unique supermarkets
   const supermarkets = new Set();
   products.forEach(product => {
+    console.log("Product supermarkets:", product.name, product.supermarkets);
     if (product.supermarkets) {
       product.supermarkets.forEach(supermarket => {
         supermarkets.add(supermarket);
       });
+    } else {
+      console.log("No supermarkets found for product:", product.name);
     }
   });
 
@@ -299,6 +306,7 @@ function getAvailableSupermarkets(category) {
 
 // Render supermarket filters
 function renderSupermarketFilters() {
+  console.log("renderSupermarketFilters called");
   const supermarketFiltersContainer = document.getElementById("supermarket-filters");
   
   if (!supermarketFiltersContainer) {
@@ -306,14 +314,19 @@ function renderSupermarketFilters() {
     return;
   }
   
+  console.log("Container found:", supermarketFiltersContainer);
+  
   const availableSupermarkets = getAvailableSupermarkets(currentCategory);
   console.log("Rendering supermarket filters for:", currentCategory, availableSupermarkets);
   
   if (availableSupermarkets.length === 0) {
+    console.log("No supermarkets available, hiding filters");
     supermarketFiltersContainer.innerHTML = "";
     return;
   }
 
+  console.log("Creating filter buttons for supermarkets:", availableSupermarkets);
+  
   // Create filter buttons
   let filtersHTML = `
     <div class="text-center mb-2">
@@ -351,8 +364,9 @@ function renderSupermarketFilters() {
   });
 
   filtersHTML += `</div>`;
+  console.log("Setting innerHTML to:", filtersHTML);
   supermarketFiltersContainer.innerHTML = filtersHTML;
-  console.log("Supermarket filters HTML set:", filtersHTML);
+  console.log("Supermarket filters rendered successfully");
 
   // Add event listeners to supermarket filter buttons
   document.querySelectorAll(".supermarket-filter-btn").forEach((btn) => {
@@ -573,6 +587,8 @@ function setupShoppingListControls() {
 // Initialize the application
 function initializeApp() {
   console.log("Initializing app...");
+  console.log("Products data:", productsData ? productsData.length : "undefined");
+  console.log("Promotions data:", promotionsData ? promotionsData.length : "undefined");
 
   // Add SEO-friendly page title updates based on category
   function updatePageTitle(category) {
@@ -598,9 +614,14 @@ function initializeApp() {
 
       console.log("Loaded products:", allProducts.length);
       console.log("Loaded promotions:", allPromotions.length);
+      
+      // Test supermarket extraction
+      console.log("Testing supermarket extraction...");
+      const testSupermarkets = getAvailableSupermarkets("Promotions");
+      console.log("Available supermarkets for Promotions:", testSupermarkets);
 
       renderProducts();
-      renderSupermarketFilters();
+      console.log("About to render supermarket filters...");
       renderSupermarketFilters();
       loadShoppingList();
       setupMobileMenu();
