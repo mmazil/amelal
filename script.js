@@ -298,35 +298,37 @@ function getAvailableSupermarkets(category) {
 
 // Render supermarket filters
 function renderSupermarketFilters() {
-  const supermarketFiltersContainer = document.getElementById("supermarket-filters");
+  const supermarketFiltersContainer = document.getElementById("supermarket-filters-container");
   
   if (!supermarketFiltersContainer) {
+    console.error("Supermarket filters container not found!");
     return;
   }
   
   const availableSupermarkets = getAvailableSupermarkets(currentCategory);
+  console.log("Available supermarkets:", availableSupermarkets);
   
   if (availableSupermarkets.length === 0) {
-    supermarketFiltersContainer.innerHTML = "";
+    supermarketFiltersContainer.innerHTML = '<div class="text-center text-gray-500 text-sm">Aucun supermarché disponible</div>';
     return;
   }
 
-  // Create filter buttons with visible styling
+  // Create highly visible filter buttons
   let filtersHTML = `
-    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+    <div class="bg-yellow-100 border-2 border-yellow-300 p-4 rounded-lg">
       <div class="text-center mb-3">
-        <span class="text-sm font-semibold text-gray-700">🏪 Filtrer par supermarché:</span>
+        <span class="text-lg font-bold text-gray-800">🏪 FILTRER PAR SUPERMARCHÉ</span>
       </div>
-      <div class="flex flex-wrap gap-2 justify-center">
+      <div class="flex flex-wrap gap-3 justify-center">
       <button
-        class="supermarket-filter-btn px-3 py-1 rounded-full border text-xs font-medium ${
+        class="supermarket-filter-btn px-4 py-2 rounded-lg border-2 text-sm font-bold ${
           currentSupermarket === "Tous" 
-            ? "bg-blue-600 text-white border-blue-600" 
-            : "bg-white hover:bg-blue-100 text-gray-700 border-gray-300"
+            ? "bg-red-600 text-white border-red-600" 
+            : "bg-white hover:bg-red-100 text-gray-700 border-red-300"
         } transition whitespace-nowrap"
         data-supermarket="Tous"
       >
-        Tous
+        🌟 TOUS
       </button>
   `;
 
@@ -336,31 +338,32 @@ function renderSupermarketFilters() {
     
     filtersHTML += `
       <button
-        class="supermarket-filter-btn px-3 py-1 rounded-full border text-xs font-medium ${
+        class="supermarket-filter-btn px-4 py-2 rounded-lg border-2 text-sm font-bold ${
           isActive 
-            ? "bg-blue-600 text-white border-blue-600" 
-            : "bg-white hover:bg-blue-100 text-gray-700 border-gray-300"
+            ? "bg-red-600 text-white border-red-600" 
+            : "bg-white hover:bg-red-100 text-gray-700 border-red-300"
         } transition whitespace-nowrap"
         data-supermarket="${supermarket}"
       >
-        ${displayName}
+        🏪 ${displayName.toUpperCase()}
       </button>
     `;
   });
 
   filtersHTML += `</div></div>`;
   supermarketFiltersContainer.innerHTML = filtersHTML;
+  console.log("Supermarket filters HTML set:", filtersHTML);
 
   // Add event listeners to supermarket filter buttons
   document.querySelectorAll(".supermarket-filter-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       // Update active states
       document.querySelectorAll(".supermarket-filter-btn").forEach((b) => {
-        b.classList.remove("bg-blue-600", "text-white", "border-blue-600");
-        b.classList.add("bg-white", "hover:bg-blue-100", "text-gray-700", "border-gray-300");
+        b.classList.remove("bg-red-600", "text-white", "border-red-600");
+        b.classList.add("bg-white", "hover:bg-red-100", "text-gray-700", "border-red-300");
       });
-      btn.classList.add("bg-blue-600", "text-white", "border-blue-600");
-      btn.classList.remove("bg-white", "hover:bg-blue-100", "text-gray-700", "border-gray-300");
+      btn.classList.add("bg-red-600", "text-white", "border-red-600");
+      btn.classList.remove("bg-white", "hover:bg-red-100", "text-gray-700", "border-red-300");
       
       currentSupermarket = btn.dataset.supermarket;
       document.getElementById("searchInput").value = ""; // clear search
