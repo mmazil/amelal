@@ -293,13 +293,21 @@ function getAvailableSupermarkets(category) {
     }
   });
 
+  console.log("Available supermarkets for", category, ":", Array.from(supermarkets));
   return Array.from(supermarkets).sort();
 }
 
 // Render supermarket filters
 function renderSupermarketFilters() {
   const supermarketFiltersContainer = document.getElementById("supermarket-filters");
+  
+  if (!supermarketFiltersContainer) {
+    console.error("Supermarket filters container not found!");
+    return;
+  }
+  
   const availableSupermarkets = getAvailableSupermarkets(currentCategory);
+  console.log("Rendering supermarket filters for:", currentCategory, availableSupermarkets);
   
   if (availableSupermarkets.length === 0) {
     supermarketFiltersContainer.innerHTML = "";
@@ -308,6 +316,9 @@ function renderSupermarketFilters() {
 
   // Create filter buttons
   let filtersHTML = `
+    <div class="text-center mb-2">
+      <span class="text-sm font-medium text-gray-600">Filtrer par supermarché:</span>
+    </div>
     <div class="flex flex-wrap gap-2 justify-center">
       <button
         class="supermarket-filter-btn px-3 py-1 rounded-full border text-xs font-medium ${
@@ -341,6 +352,7 @@ function renderSupermarketFilters() {
 
   filtersHTML += `</div>`;
   supermarketFiltersContainer.innerHTML = filtersHTML;
+  console.log("Supermarket filters HTML set:", filtersHTML);
 
   // Add event listeners to supermarket filter buttons
   document.querySelectorAll(".supermarket-filter-btn").forEach((btn) => {
@@ -588,6 +600,7 @@ function initializeApp() {
       console.log("Loaded promotions:", allPromotions.length);
 
       renderProducts();
+      renderSupermarketFilters();
       renderSupermarketFilters();
       loadShoppingList();
       setupMobileMenu();
