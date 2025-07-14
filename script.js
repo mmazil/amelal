@@ -268,76 +268,61 @@ function filterProductsByCategory(category, supermarket = "Tous") {
 
 // Get unique supermarkets for current category
 function getAvailableSupermarkets(category) {
-  console.log("getAvailableSupermarkets called with category:", category);
   let products = [];
   
   if (category === "Promotions") {
     const validPromotions = allPromotions.filter((promo) =>
       isPromotionValid(promo.promotion_end)
     );
-    console.log("Valid promotions found:", validPromotions.length);
     products = validPromotions;
   } else if (category === "Produits Pas Chers") {
     products = allProducts;
-    console.log("Regular products found:", products.length);
   } else {
     products = allProducts.filter((p) =>
       p.category.includes(category)
     );
-    console.log("Category filtered products found:", products.length);
   }
 
   // Extract all unique supermarkets
   const supermarkets = new Set();
   products.forEach(product => {
-    console.log("Product supermarkets:", product.name, product.supermarkets);
     if (product.supermarkets) {
       product.supermarkets.forEach(supermarket => {
         supermarkets.add(supermarket);
       });
-    } else {
-      console.log("No supermarkets found for product:", product.name);
     }
   });
 
-  console.log("Available supermarkets for", category, ":", Array.from(supermarkets));
   return Array.from(supermarkets).sort();
 }
 
 // Render supermarket filters
 function renderSupermarketFilters() {
-  console.log("renderSupermarketFilters called");
   const supermarketFiltersContainer = document.getElementById("supermarket-filters");
   
   if (!supermarketFiltersContainer) {
-    console.error("Supermarket filters container not found!");
     return;
   }
   
-  console.log("Container found:", supermarketFiltersContainer);
-  
   const availableSupermarkets = getAvailableSupermarkets(currentCategory);
-  console.log("Rendering supermarket filters for:", currentCategory, availableSupermarkets);
   
   if (availableSupermarkets.length === 0) {
-    console.log("No supermarkets available, hiding filters");
     supermarketFiltersContainer.innerHTML = "";
     return;
   }
 
-  console.log("Creating filter buttons for supermarkets:", availableSupermarkets);
-  
-  // Create filter buttons
+  // Create filter buttons with visible styling
   let filtersHTML = `
-    <div class="text-center mb-2">
-      <span class="text-sm font-medium text-gray-600">Filtrer par supermarché:</span>
-    </div>
-    <div class="flex flex-wrap gap-2 justify-center">
+    <div class="bg-gray-100 p-4 rounded-lg mb-4">
+      <div class="text-center mb-3">
+        <span class="text-sm font-semibold text-gray-700">🏪 Filtrer par supermarché:</span>
+      </div>
+      <div class="flex flex-wrap gap-2 justify-center">
       <button
         class="supermarket-filter-btn px-3 py-1 rounded-full border text-xs font-medium ${
           currentSupermarket === "Tous" 
-            ? "bg-green-600 text-white" 
-            : "hover:bg-green-100 text-gray-700 border-gray-300"
+            ? "bg-blue-600 text-white border-blue-600" 
+            : "bg-white hover:bg-blue-100 text-gray-700 border-gray-300"
         } transition whitespace-nowrap"
         data-supermarket="Tous"
       >
@@ -353,8 +338,8 @@ function renderSupermarketFilters() {
       <button
         class="supermarket-filter-btn px-3 py-1 rounded-full border text-xs font-medium ${
           isActive 
-            ? "bg-green-600 text-white" 
-            : "hover:bg-green-100 text-gray-700 border-gray-300"
+            ? "bg-blue-600 text-white border-blue-600" 
+            : "bg-white hover:bg-blue-100 text-gray-700 border-gray-300"
         } transition whitespace-nowrap"
         data-supermarket="${supermarket}"
       >
@@ -363,24 +348,21 @@ function renderSupermarketFilters() {
     `;
   });
 
-  filtersHTML += `</div>`;
-  console.log("Setting innerHTML to:", filtersHTML);
+  filtersHTML += `</div></div>`;
   supermarketFiltersContainer.innerHTML = filtersHTML;
-  console.log("Supermarket filters rendered successfully");
 
   // Add event listeners to supermarket filter buttons
   document.querySelectorAll(".supermarket-filter-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       // Update active states
       document.querySelectorAll(".supermarket-filter-btn").forEach((b) => {
-        b.classList.remove("bg-green-600", "text-white");
-        b.classList.add("hover:bg-green-100", "text-gray-700", "border-gray-300");
+        b.classList.remove("bg-blue-600", "text-white", "border-blue-600");
+        b.classList.add("bg-white", "hover:bg-blue-100", "text-gray-700", "border-gray-300");
       });
-      btn.classList.add("bg-green-600", "text-white");
-      btn.classList.remove("hover:bg-green-100", "text-gray-700", "border-gray-300");
+      btn.classList.add("bg-blue-600", "text-white", "border-blue-600");
+      btn.classList.remove("bg-white", "hover:bg-blue-100", "text-gray-700", "border-gray-300");
       
       currentSupermarket = btn.dataset.supermarket;
-      console.log("Supermarket changed to:", currentSupermarket);
       document.getElementById("searchInput").value = ""; // clear search
       renderProducts();
     });
@@ -615,13 +597,7 @@ function initializeApp() {
       console.log("Loaded products:", allProducts.length);
       console.log("Loaded promotions:", allPromotions.length);
       
-      // Test supermarket extraction
-      console.log("Testing supermarket extraction...");
-      const testSupermarkets = getAvailableSupermarkets("Promotions");
-      console.log("Available supermarkets for Promotions:", testSupermarkets);
-
       renderProducts();
-      console.log("About to render supermarket filters...");
       renderSupermarketFilters();
       loadShoppingList();
       setupMobileMenu();
@@ -637,7 +613,6 @@ function initializeApp() {
           btn.classList.add("bg-indigo-600", "text-white");
           btn.classList.remove("hover:bg-indigo-100");
           currentCategory = btn.dataset.category;
-          console.log("Category changed to:", currentCategory);
           updatePageTitle(currentCategory);
           currentSupermarket = "Tous"; // Reset supermarket filter when category changes
           document.getElementById("searchInput").value = ""; // clear search
