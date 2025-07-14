@@ -6,7 +6,7 @@ const productsData = [
     price: "6.40 MAD",
     saved: "1.50 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://shippini.ma/wp-content/uploads/2024/05/Farine-fleur-patisserie-1Kg-ALITKANE.jpg",
     alternatives: [
@@ -35,7 +35,7 @@ const productsData = [
     price: "12.10 MAD",
     saved: "0.20 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://soukday.ca/wp-content/uploads/2022/10/Finot-de-ble-dur-%E2%80%93-Alitkane-%E2%80%93-1-kg-1.jpg",
     alternatives: [
@@ -64,7 +64,7 @@ const productsData = [
     price: "10.10 MAD",
     saved: "21.50 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://coursesu.ma/_next/image?url=https%3A%2F%2Fapi.coursesu.ma%2Fmedia%2Fthumbnails%2Fproducts%2F6111012203595_bb597a23_thumbnail_4096.jpeg&w=3840&q=75",
     alternatives: [
@@ -93,7 +93,7 @@ const productsData = [
     price: "24.50 MAD",
     saved: "6.20 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/menus-glovo/products/20c3635a6ae12c7ed27af6056b6fc1b60c6e7b7b10c462ab90f29258c43e0860?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -122,7 +122,7 @@ const productsData = [
     price: "50.20 MAD",
     saved: "1.60 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://api.allonaya.ma/assets/files/Media/q4BBfdB3GyfByvFfy/large/24df5849-9a18-4dad-90d2-618167215148.jpg",
     alternatives: [
@@ -151,7 +151,7 @@ const productsData = [
     price: "50.90 MAD",
     saved: "1.20 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://central-hal.com/wp-content/uploads/2024/11/VPAYESYG1376.png",
     alternatives: [
@@ -180,7 +180,7 @@ const productsData = [
     price: "46.50 MAD",
     saved: "0.00 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/pim-glovo/6579da16c8e2245b73e9b46c.jpeg?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -209,7 +209,7 @@ const productsData = [
     price: "8.65 MAD",
     saved: "0.95 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image: "https://www.biouss.com/data/oleor-huile-de-table-05l-1.jpg",
     alternatives: [
       {
@@ -237,7 +237,7 @@ const productsData = [
     price: "15.50 MAD",
     saved: "1.25 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/pim-glovo/64b676349a6e474c914e612f.jpeg?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -250,7 +250,7 @@ const productsData = [
           "https://images.deliveryhero.io/image/pim-glovo/64b673a69a6e474c914e5d8e.jpeg",
       },
       {
-        name: "Huile de table 1L - MARJANE",
+        name: "Huile de table 1L - Marjane",
         price: "16.50 MAD",
         volume: "1L",
         description: "Marque distributeur de confiance",
@@ -266,7 +266,7 @@ const productsData = [
     price: "30.95 MAD",
     saved: "1.95 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/2c9f7d69-0345-4a4a-86cf-ec980d2a0b07.webp?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -295,7 +295,7 @@ const productsData = [
     price: "72.95 MAD",
     saved: "2.00 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/f6fbfd3d-c7f4-4997-8c62-8296615c6319.webp?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -308,7 +308,7 @@ const productsData = [
           "https://images.deliveryhero.io/image/menus-glovo/products/aa7eb81c5a0eea3343d3f8bce2566f21695d398db35c707fc4adcecf0074e553.jpg",
       },
       {
-        name: "Huile de table 5L - MARJANE",
+        name: "Huile de table 5L - Marjane",
         price: "80.95 MAD",
         volume: "5L",
         description: "Marque distributeur fiable",
@@ -324,7 +324,7 @@ const productsData = [
     price: "44.69 MAD",
     saved: "3.57 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://images.deliveryhero.io/image/pim-glovo/64b673aa9a6e474c914e5d96.jpeg",
     alternatives: [
@@ -353,7 +353,7 @@ const productsData = [
     price: "82.24 MAD",
     saved: "0.00 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://lahri.net/wp-content/uploads/2021/11/Huile-dOlive-Vierge-Courante-Mabrouka-1L-1.jpg",
     alternatives: [
@@ -382,7 +382,7 @@ const productsData = [
     price: "164.44 MAD",
     saved: "0.04 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://twobrothers.co/cdn/shop/files/Alhorro2litterfront.jpg?v=1735156852",
     alternatives: [
@@ -410,7 +410,7 @@ const productsData = [
     price: "9.95 DH",
     saved: "5.85 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/de/b6/8e3b935874da92796cef567eccdf.jpg",
     alternatives: [
@@ -436,7 +436,7 @@ const productsData = [
     price: "14.65 DH",
     saved: "5.30 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://shippini.ma/wp-content/uploads/2023/12/Fromage-frais-a-tartiner-190g-JEBLI.jpg",
     alternatives: [
@@ -462,7 +462,7 @@ const productsData = [
     price: "4.00 MAD",
     saved: "2.00 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://smartmedia.digital4danone.com//is/image/danonecs/salim-lait-pt?wid=720&fmt=png-alpha&fit=wrap",
     alternatives: [
@@ -488,7 +488,7 @@ const productsData = [
     price: "3.95 DH",
     saved: "6.90 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/d5/af/576ee9dfbca0d3b80798bc9f8e86.jpg",
     alternatives: [
@@ -514,7 +514,7 @@ const productsData = [
     price: "98.95 DH",
     saved: "10.00 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/cc/7e/38a5397aa65d7ae7d0ba757d34ef.jpg",
     alternatives: [
@@ -540,7 +540,7 @@ const productsData = [
     price: "49.90 DH",
     saved: "5.00 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://leberger.ma/wp-content/uploads/2022/06/Beurre-le-berger-500g-vert-min.png",
     alternatives: [
@@ -566,7 +566,7 @@ const productsData = [
     price: "26.50 DH",
     saved: "4.00 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://leberger.ma/wp-content/uploads/2022/06/Beurre-le-berger-250g-vert-min.png",
     alternatives: [
@@ -592,12 +592,12 @@ const productsData = [
     price: "22.40 DH",
     saved: "6.00 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://lh3.googleusercontent.com/proxy/b3qEFuHHQgrZjvLZz7HqUoLkoZ_D8EdlYnQKoa2dZXL4hIbpOK3hNzxUiy39D5gzm6u9B4spVaxBXNXedDxY6xlsdsM-iQ3PTn7qSjSHGy9Mf2Qfucf4",
     alternatives: [
       {
-        name: "Beurre doux en plaquette 200g - MARJANE",
+        name: "Beurre doux en plaquette 200g - Marjane",
         price: "22.95 MAD",
         description: "Alternative de marque distributeur",
         image:
@@ -618,7 +618,7 @@ const productsData = [
     price: "8.95 DH",
     saved: "10.55 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://cdn.shopify.com/s/files/1/0248/9771/6302/files/Ledda-margarine-patissiere-250g.jpg?v=1685703835",
     alternatives: [
@@ -644,7 +644,7 @@ const productsData = [
     price: "16.20 DH",
     saved: "15.30 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image: "https://e-xportmorocco.com/storage/produits/1645523823.png",
     alternatives: [
       {
@@ -669,7 +669,7 @@ const productsData = [
     price: "41.95 DH",
     saved: "15.25 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-prelive/web/cache/sylius_large/3a/03/fde7ce86dc40e8a3796c2c120a5e.jpg",
     alternatives: [
@@ -695,7 +695,7 @@ const productsData = [
     price: "9.95 DH",
     saved: "3.00 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://www.fournipro.ma/media/catalog/product/cache/5071cfa5f17ef440ab51cb12bf8d46d4/e/a/eau_de_table_purifi_e_bahia_5_litres_-_fournipro.ma1.jpg",
     alternatives: [
@@ -721,7 +721,7 @@ const productsData = [
     price: "12.00 DH",
     saved: "0.95 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://www.aswakdelivery.com/rabat/wp-content/uploads/sites/11/2024/11/0936195.jpg",
     alternatives: [
@@ -747,7 +747,7 @@ const productsData = [
     price: "3.60 DH",
     saved: "3.15 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://soukelhad.shop/wp-content/uploads/2023/09/Eau-de-table-Bahia-6x1.5L-Souk-El-Had.jpg",
     alternatives: [
@@ -773,7 +773,7 @@ const productsData = [
     price: "3.95 DH",
     saved: "2.80 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://liya.ma/wp-content/uploads/2022/02/9eb4d82b2671d9209ef7199f6aacc298-1.jpg",
     alternatives: [
@@ -799,7 +799,7 @@ const productsData = [
     price: "2.50 DH",
     saved: "1.50 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image: "https://aswakassalam.com/wp-content/uploads/2022/09/1302786.jpg",
     alternatives: [
       {
@@ -824,7 +824,7 @@ const productsData = [
     price: "2.70 DH",
     saved: "1.30 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/0f/43/986b3624e6c8c25d9db3cc1d4149.jpg",
     alternatives: [
@@ -850,7 +850,7 @@ const productsData = [
     price: "7.00 DH",
     saved: "2.95 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://i0.wp.com/www.aswakdelivery.com/agadir/wp-content/uploads/sites/18/2024/11/1215713.jpg?fit=1200%2C1200&ssl=1",
     alternatives: [
@@ -876,7 +876,7 @@ const productsData = [
     price: "7.00 DH",
     saved: "2.95 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/d7/9f/172f24b4ca2712087f3b3124db5d.jpg",
     alternatives: [
@@ -902,7 +902,7 @@ const productsData = [
     price: "5.00 DH",
     saved: "0.90 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://www.aswakdelivery.com/rabat/wp-content/uploads/sites/11/2024/11/1366502.jpg",
     alternatives: [
@@ -928,7 +928,7 @@ const productsData = [
     price: "4.90 DH",
     saved: "0.10 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image: "https://liya.ma/wp-content/uploads/2022/02/1992289_1.jpeg",
     alternatives: [
       {
@@ -953,7 +953,7 @@ const productsData = [
     price: "7.00 DH",
     saved: "2.00 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://www.maghrebmarket.ca/cdn/shop/files/ICEPulpaOrangeDrink1.5L.webp?v=1729646003",
     alternatives: [
@@ -979,7 +979,7 @@ const productsData = [
     price: "7.00 DH",
     saved: "2.00 DH",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/62/aa/94f730675599250558443a346199.jpg",
     alternatives: [
@@ -1005,11 +1005,11 @@ const productsData = [
     total_price: "28.95 MAD",
     saved: "10.80 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image: "https://halitlar.com/file/sanitary-paper/papia-paper-towel-6-pc",
     alternatives: [
       {
-        name: "Papier toilette blanc compact 2 plis x6pcs - MARJANE",
+        name: "Papier toilette blanc compact 2 plis x6pcs - Marjane",
         price: "30.95 MAD",
         description: "Alternative 2 plis plus économique",
         image:
@@ -1030,12 +1030,12 @@ const productsData = [
     total_price: "19.95 MAD",
     saved: "24.75 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
-      "https://www.marjanemall.ma/media/catalog/product/cache/36c9d346b6653f95ce7222f403adb694/_/p/_pdt2_4_7_0_2_700x700_AAADF80470.jpg",
+      "https://www.Marjanemall.ma/media/catalog/product/cache/36c9d346b6653f95ce7222f403adb694/_/p/_pdt2_4_7_0_2_700x700_AAADF80470.jpg",
     alternatives: [
       {
-        name: "Papier toilette blanc douceur et confort 2 plis x12pcs - MARJANE",
+        name: "Papier toilette blanc douceur et confort 2 plis x12pcs - Marjane",
         price: "27.95 MAD",
         description: "Qualité confort supérieure",
         image:
@@ -1057,7 +1057,7 @@ const productsData = [
     price: "23.95 MAD",
     saved: "0.55 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://res.cloudinary.com/dcphm6bor/image/upload/q_75,f_auto,w_384/v1698919585/product/fb24fcb7a8cdaa9a02a04a5eb09055ad.webp",
     alternatives: [
@@ -1085,12 +1085,12 @@ const productsData = [
     price: "16.50 MAD",
     saved: "3.50 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/82/0e/ad489b067203c968bf3d77235862.jpg",
     alternatives: [
       {
-        name: "Lessive main au citron 1kg - MARJANE",
+        name: "Lessive main au citron 1kg - Marjane",
         price: "14.95 MAD",
         description: "Option plus économique",
         image:
@@ -1112,7 +1112,7 @@ const productsData = [
     price: "27.50 MAD",
     saved: "0.60 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://fatifoods.com/wp-content/uploads/2024/11/Detergent-liquide-automatique-Oceanique-Zen-5-L.png",
     alternatives: [
@@ -1133,13 +1133,13 @@ const productsData = [
     ],
   },
   {
-    name: "Lessive main au citron 1kg - MARJANE",
+    name: "Lessive main au citron 1kg - Marjane",
     volume: "1kg",
     price: "14.95 MAD",
     price_per_kg: "14.95 MAD",
     saved: "12.15 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/9dee857f-62aa-4661-8325-d42db022b5a4.png?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -1160,13 +1160,13 @@ const productsData = [
     ],
   },
   {
-    name: "Lessive main à la lavande 1,5 Kg - MARJANE",
+    name: "Lessive main à la lavande 1,5 Kg - Marjane",
     volume: "1.5kg",
     price: "21.95 MAD",
     price_per_kg: "14.63 MAD",
     saved: "17.15 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/6bf1a42e-bb42-4bba-824d-ed42da197344.webp?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -1192,7 +1192,7 @@ const productsData = [
     price: "6.50 MAD",
     saved: "1.50 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://api.coursesu.ma/media/thumbnails/products/6111250861762_55d1544d_thumbnail_4096.jpg",
     alternatives: [
@@ -1211,7 +1211,7 @@ const productsData = [
     price: "9.50 MAD",
     saved: "3.00 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://glovo.dhmedia.io/image/global-catalog-glovo/nv-global-catalog/aa/f518748a-6162-4874-b20c-575d6197b886.webp?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoxNTAsImhlaWdodCI6MTUwfX1d",
     alternatives: [
@@ -1230,7 +1230,7 @@ const productsData = [
     price: "38.95 MAD",
     saved: "2.75 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["marjane"],
+    supermarkets: ["Marjane"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/5f/9f/9b6d54e02d8a115ee81c6db19b7f.jpg",
     alternatives: [

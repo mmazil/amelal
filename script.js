@@ -484,6 +484,8 @@ function initializeApp() {
       console.log("Loaded products:", allProducts.length);
       console.log("Loaded promotions:", allPromotions.length);
 
+      renderSupermarketFilters(allProducts, allPromotions);
+
       renderProducts();
       loadShoppingList();
       setupMobileMenu();
@@ -501,7 +503,12 @@ function initializeApp() {
           currentCategory = btn.dataset.category;
           console.log("Category changed to:", currentCategory);
           updatePageTitle(currentCategory);
-          document.getElementById("searchInput").value = ""; // clear search
+          if (currentCategory !== "Promotions") {
+            document.getElementById("searchInput").classList.remove("hidden");
+            document.getElementById("searchInput").value = ""; // clear search
+          } else {
+            document.getElementById("searchInput").classList.add("hidden");
+          }
           renderProducts();
         });
       });
@@ -548,7 +555,11 @@ window.openModal = function (index) {
         <h3 class="text-lg font-semibold mb-2 leading-tight">${
           product.name
         }</h3>
-        <p class="text-sm text-gray-600 mb-2">${product.description}</p>
+        ${
+          product.description
+            ? `<p class="text-sm text-gray-600 mb-2">${product.description}</p>`
+            : ""
+        }
         ${
           isPromotion
             ? '<span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-bold">🔥 PROMOTION</span>'
@@ -619,12 +630,22 @@ window.openModal = function (index) {
         </div>
       </div>
       
-      <!-- Empty fourth cell for promotions to maintain 2x2 grid -->
+      <!-- Fourth Cell: Either empty filler or "Ouvrir le Catalogue" button -->
       ${
-        isPromotion
+        isPromotion && product.catalog
+          ? `
+          <div class="bg-yellow-50 p-2 rounded flex items-center justify-center">
+            <a href="${product.catalog}" target="_blank" rel="noopener noreferrer"
+              class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-semibold px-3 py-1 rounded-full transition">
+              📖 Ouvrir le Catalogue
+            </a>
+          </div>
+        `
+          : isPromotion
           ? '<div class="bg-gray-50 p-2 rounded opacity-50"></div>'
           : ""
       }
+
     </div>
   `;
 
@@ -706,10 +727,32 @@ document.getElementById("clearListBtn").addEventListener("click", () => {
 // Search functionality scoped to current category
 document.getElementById("searchInput").addEventListener("input", (e) => {
   const keyword = e.target.value.toLowerCase();
+  const selectedMarkets = Array.from(
+    document.querySelectorAll(".supermarket-btn.bg-indigo-600")
+  ).map((btn) => btn.dataset.market.trim());
+
   const categoryProducts = filterProductsByCategory(currentCategory);
-  const filtered = categoryProducts.filter((p) =>
-    p.name.toLowerCase().includes(keyword)
-  );
+
+  const now = new Date();
+
+  const filtered = categoryProducts.filter((p) => {
+    // If current category is Promotions, filter expired ones
+    if (currentCategory === "Promotions") {
+      const promotionEndDate = new Date(p.promotion_end);
+      if (promotionEndDate < now) return false;
+    }
+
+    const matchesSearch = !keyword || p.name.toLowerCase().includes(keyword);
+
+    const productMarkets = (p.supermarkets || []).map((s) => s.trim());
+
+    const matchesMarket =
+      selectedMarkets.length === 0 ||
+      selectedMarkets.some((m) => productMarkets.includes(m));
+
+    return matchesSearch && matchesMarket;
+  });
+
   renderProducts(filtered);
 });
 
@@ -720,3 +763,95 @@ document.getElementById("modal").addEventListener("click", (e) => {
     currentProductIndex = null;
   }
 });
+
+function renderSupermarketFilters(products, promotions) {
+  const allSupermarkets = new Set();
+
+  [...products, ...promotions].forEach((item) => {
+    (item.supermarkets || []).forEach((market) =>
+      allSupermarkets.add(market.trim())
+    );
+  });
+
+  const filterContainer = document.getElementById("supermarket-filters");
+  filterContainer.innerHTML = "";
+
+  // Sort and render buttons with images instead of text
+  [...allSupermarkets].sort().forEach((market) => {
+    // Find the matching supermarket info from the supermarkets array
+    const supermarketInfo = supermarkets.find(
+      (s) => s.name.toLowerCase() === market.toLowerCase()
+    );
+
+    const btn = document.createElement("button");
+    btn.className =
+      "supermarket-btn px-3 md:px-4 py-2 border text-sm font-medium hover:bg-indigo-100 transition whitespace-nowrap flex items-center justify-center";
+    btn.dataset.market = market;
+
+    if (supermarketInfo) {
+      const img = document.createElement("img");
+      img.src = supermarketInfo.image;
+      img.alt = supermarketInfo.name;
+      img.style.height = "40px";
+      img.style.width = "auto";
+      img.style.objectFit = "contain";
+      btn.appendChild(img);
+    } else {
+      // Fallback: just show the name if no image found
+      btn.textContent = market;
+    }
+
+    filterContainer.appendChild(btn);
+  });
+
+  // Click handler for filtering
+  document.querySelectorAll(".supermarket-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("bg-indigo-600");
+      btn.classList.toggle("text-white");
+      btn.classList.toggle("hover:bg-indigo-100");
+      filterAndRender();
+    });
+  });
+}
+
+function filterAndRender() {
+  const searchQuery = document
+    .getElementById("searchInput")
+    .value.toLowerCase();
+  const selectedCategory =
+    document.querySelector(".filter-btn.bg-indigo-600")?.dataset.category ||
+    "Produits Pas Chers"; // default category
+
+  const selectedMarkets = Array.from(
+    document.querySelectorAll(".supermarket-btn.bg-indigo-600")
+  ).map((btn) => btn.dataset.market.trim());
+
+  let sourceData =
+    selectedCategory === "Promotions" ? allPromotions : allProducts;
+
+  const now = new Date();
+
+  const filtered = sourceData.filter((product) => {
+    // If promotions category, filter out expired promotions
+    if (selectedCategory === "Promotions") {
+      const promotionEndDate = new Date(product.promotion_end);
+      if (promotionEndDate < now) {
+        return false; // skip expired promotions
+      }
+    }
+
+    const matchesSearch =
+      !searchQuery || product.name.toLowerCase().includes(searchQuery);
+
+    const productMarkets = (product.supermarkets || []).map((s) => s.trim());
+
+    const matchesMarket =
+      selectedMarkets.length === 0 ||
+      selectedMarkets.some((m) => productMarkets.includes(m));
+
+    return matchesSearch && matchesMarket;
+  });
+
+  renderProducts(filtered);
+}
