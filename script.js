@@ -2,6 +2,7 @@ let allProducts = [];
 let allPromotions = [];
 let filteredProducts = [];
 let currentCategory = "Promotions";
+let currentSupermarket = "Tous";
 let shoppingList = [];
 let currentProductIndex = null;
 
@@ -225,7 +226,7 @@ function showNotification(message, type = "info") {
 }
 
 // Filter products by category
-function filterProductsByCategory(category) {
+function filterProductsByCategory(category, supermarket = "Tous") {
   let products = [];
 
   if (category === "Promotions") {
@@ -255,7 +256,109 @@ function filterProductsByCategory(category) {
     products = categoryProducts;
   }
 
+  // Filter by supermarket if not "Tous"
+  if (supermarket !== "Tous") {
+    products = products.filter(product => 
+      product.supermarkets && product.supermarkets.includes(supermarket.toLowerCase())
+    );
+  }
+
   return products;
+}
+
+// Get unique supermarkets for current category
+function getAvailableSupermarkets(category) {
+  let products = [];
+  
+  if (category === "Promotions") {
+    const validPromotions = allPromotions.filter((promo) =>
+      isPromotionValid(promo.promotion_end)
+    );
+    products = validPromotions;
+  } else if (category === "Produits Pas Chers") {
+    products = allProducts;
+  } else {
+    products = allProducts.filter((p) =>
+      p.category.includes(category)
+    );
+  }
+
+  // Extract all unique supermarkets
+  const supermarkets = new Set();
+  products.forEach(product => {
+    if (product.supermarkets) {
+      product.supermarkets.forEach(supermarket => {
+        supermarkets.add(supermarket);
+      });
+    }
+  });
+
+  return Array.from(supermarkets).sort();
+}
+
+// Render supermarket filters
+function renderSupermarketFilters() {
+  const supermarketFiltersContainer = document.getElementById("supermarket-filters");
+  const availableSupermarkets = getAvailableSupermarkets(currentCategory);
+  
+  if (availableSupermarkets.length === 0) {
+    supermarketFiltersContainer.innerHTML = "";
+    return;
+  }
+
+  // Create filter buttons
+  let filtersHTML = `
+    <div class="flex flex-wrap gap-2 justify-center">
+      <button
+        class="supermarket-filter-btn px-3 py-1 rounded-full border text-xs font-medium ${
+          currentSupermarket === "Tous" 
+            ? "bg-green-600 text-white" 
+            : "hover:bg-green-100 text-gray-700 border-gray-300"
+        } transition whitespace-nowrap"
+        data-supermarket="Tous"
+      >
+        Tous
+      </button>
+  `;
+
+  availableSupermarkets.forEach(supermarket => {
+    const displayName = supermarket.charAt(0).toUpperCase() + supermarket.slice(1);
+    const isActive = currentSupermarket === supermarket;
+    
+    filtersHTML += `
+      <button
+        class="supermarket-filter-btn px-3 py-1 rounded-full border text-xs font-medium ${
+          isActive 
+            ? "bg-green-600 text-white" 
+            : "hover:bg-green-100 text-gray-700 border-gray-300"
+        } transition whitespace-nowrap"
+        data-supermarket="${supermarket}"
+      >
+        ${displayName}
+      </button>
+    `;
+  });
+
+  filtersHTML += `</div>`;
+  supermarketFiltersContainer.innerHTML = filtersHTML;
+
+  // Add event listeners to supermarket filter buttons
+  document.querySelectorAll(".supermarket-filter-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Update active states
+      document.querySelectorAll(".supermarket-filter-btn").forEach((b) => {
+        b.classList.remove("bg-green-600", "text-white");
+        b.classList.add("hover:bg-green-100", "text-gray-700", "border-gray-300");
+      });
+      btn.classList.add("bg-green-600", "text-white");
+      btn.classList.remove("hover:bg-green-100", "text-gray-700", "border-gray-300");
+      
+      currentSupermarket = btn.dataset.supermarket;
+      console.log("Supermarket changed to:", currentSupermarket);
+      document.getElementById("searchInput").value = ""; // clear search
+      renderProducts();
+    });
+  });
 }
 
 // Render filtered products
@@ -265,7 +368,7 @@ function renderProducts(products = null) {
 
   // Use provided products or filter by current category
   const productsToRender =
-    products || filterProductsByCategory(currentCategory);
+    products || filterProductsByCategory(currentCategory, currentSupermarket);
   filteredProducts = productsToRender; // Store filtered products
 
   console.log(
@@ -485,6 +588,7 @@ function initializeApp() {
       console.log("Loaded promotions:", allPromotions.length);
 
       renderProducts();
+      renderSupermarketFilters();
       loadShoppingList();
       setupMobileMenu();
       setupShoppingListControls();
@@ -501,8 +605,10 @@ function initializeApp() {
           currentCategory = btn.dataset.category;
           console.log("Category changed to:", currentCategory);
           updatePageTitle(currentCategory);
+          currentSupermarket = "Tous"; // Reset supermarket filter when category changes
           document.getElementById("searchInput").value = ""; // clear search
           renderProducts();
+          renderSupermarketFilters();
         });
       });
     })
@@ -706,7 +812,7 @@ document.getElementById("clearListBtn").addEventListener("click", () => {
 // Search functionality scoped to current category
 document.getElementById("searchInput").addEventListener("input", (e) => {
   const keyword = e.target.value.toLowerCase();
-  const categoryProducts = filterProductsByCategory(currentCategory);
+  const categoryProducts = filterProductsByCategory(currentCategory, currentSupermarket);
   const filtered = categoryProducts.filter((p) =>
     p.name.toLowerCase().includes(keyword)
   );
