@@ -792,7 +792,7 @@ function renderSupermarketFilters(products, promotions) {
       const img = document.createElement("img");
       img.src = supermarketInfo.image;
       img.alt = supermarketInfo.name;
-      img.style.height = "40px";
+      img.style.height = "60px";
       img.style.width = "auto";
       img.style.objectFit = "contain";
       btn.appendChild(img);
