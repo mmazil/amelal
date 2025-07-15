@@ -406,7 +406,7 @@ function renderProducts(products = null) {
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
               Ajouter à la Liste
             </button>
-            <button onclick="goToProductDetails(${index})"
+            <button onclick="openModal(${index})"
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
               Détails du Produit
             </button>
