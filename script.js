@@ -406,7 +406,7 @@ function renderProducts(products = null) {
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
               Ajouter à la Liste
             </button>
-            <button onclick="openModal(${index})"
+            <button onclick="goToProductDetails(${index})"
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
               Détails du Produit
             </button>
@@ -416,6 +416,12 @@ function renderProducts(products = null) {
     `;
   });
 }
+
+window.goToProductDetails = function (index) {
+  const product = filteredProducts[index];
+  localStorage.setItem("selectedProduct", JSON.stringify(product));
+  window.location.href = "details.html";
+};
 
 // Mobile menu toggle
 function setupMobileMenu() {
