@@ -400,7 +400,7 @@ function renderProducts(products = null) {
             ${supermarketBadge}
           </div>
 
-          <div class="pt-4 flex flex-row justify-evenly">
+          <div class="pt-4 flex flex-row justify-between">
             <button
               onclick="addToShoppingList(filteredProducts[${index}])"
               class="bg-indigo-600 text-white text-sm px-4 py-2 rounded hover:bg-indigo-700 transition whitespace-nowrap">
@@ -702,6 +702,16 @@ window.openModal = function (index) {
   modal.classList.remove("hidden");
   modal.classList.add("flex");
 };
+
+// Share product button
+document.getElementById("shareProductBtn").addEventListener("click", () => {
+  if (currentProductIndex !== null) {
+    const productLink = `${window.location.origin}/details.html?index=${currentProductIndex}`;
+    navigator.clipboard.writeText(productLink).catch((err) => {
+      console.error("Erreur lors de la copie :", err);
+    });
+  }
+});
 
 // Close modal
 document.getElementById("closeModal").addEventListener("click", () => {
