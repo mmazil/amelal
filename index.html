@@ -367,5 +367,18 @@
     <script src="promotions.js"></script>
     <script src="supermarkets.js"></script>
     <script src="script.js"></script>
+    <script>
+      // Clear shopping list
+      document.getElementById("clearListBtn").addEventListener("click", () => {
+        if (
+          confirm("Êtes-vous sûr de vouloir vider votre liste de courses ?")
+        ) {
+          shoppingList = [];
+          saveShoppingList();
+          updateShoppingListDisplay();
+          showNotification("Liste de courses vidée !", "info");
+        }
+      });
+    </script>
   </body>
 </html>

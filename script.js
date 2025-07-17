@@ -480,9 +480,9 @@ function initializeApp() {
   // Fetch both regular products and promotions
   Promise.resolve([productsData, promotionsData])
     .then(([products, promotions]) => {
-      promotions.sort(
-        (a, b) => new Date(a.promotion_end) - new Date(b.promotion_end)
-      );
+      // promotions.sort(
+      //   (a, b) => new Date(a.promotion_end) - new Date(b.promotion_end)
+      // );
 
       allProducts = products;
       allPromotions = promotions;
@@ -708,8 +708,9 @@ document.getElementById("shareProductBtn").addEventListener("click", () => {
   if (currentProductIndex !== null) {
     const productLink = `${window.location.origin}/details.html?index=${currentProductIndex}`;
     const product = filteredProducts[currentProductIndex];
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    if (navigator.share) {
+    if (isMobile && navigator.share) {
       // ✅ Native share API is supported (mobile browsers, mostly)
       navigator
         .share({
@@ -754,47 +755,37 @@ document.getElementById("addToListBtn").addEventListener("click", () => {
   }
 });
 
-// Clear shopping list
-document.getElementById("clearListBtn").addEventListener("click", () => {
-  if (confirm("Êtes-vous sûr de vouloir vider votre liste de courses ?")) {
-    shoppingList = [];
-    saveShoppingList();
-    updateShoppingListDisplay();
-    showNotification("Liste de courses vidée !", "info");
-  }
-});
-
 // Search functionality scoped to current category
-document.getElementById("searchInput").addEventListener("input", (e) => {
-  const keyword = e.target.value.toLowerCase();
-  const selectedMarkets = Array.from(
-    document.querySelectorAll(".supermarket-btn.bg-indigo-600")
-  ).map((btn) => btn.dataset.market.trim());
+// document.getElementById("searchInput").addEventListener("input", (e) => {
+//   const keyword = e.target.value.toLowerCase();
+//   const selectedMarkets = Array.from(
+//     document.querySelectorAll(".supermarket-btn.bg-indigo-600")
+//   ).map((btn) => btn.dataset.market.trim());
 
-  const categoryProducts = filterProductsByCategory(currentCategory);
+//   const categoryProducts = filterProductsByCategory(currentCategory);
 
-  const now = new Date();
+//   const now = new Date();
 
-  const filtered = categoryProducts.filter((p) => {
-    // If current category is Promotions, filter expired ones
-    if (currentCategory === "Promotions") {
-      const promotionEndDate = new Date(p.promotion_end);
-      if (promotionEndDate < now) return false;
-    }
+//   const filtered = categoryProducts.filter((p) => {
+//     // If current category is Promotions, filter expired ones
+//     if (currentCategory === "Promotions") {
+//       const promotionEndDate = new Date(p.promotion_end);
+//       if (promotionEndDate < now) return false;
+//     }
 
-    const matchesSearch = !keyword || p.name.toLowerCase().includes(keyword);
+//     const matchesSearch = !keyword || p.name.toLowerCase().includes(keyword);
 
-    const productMarkets = (p.supermarkets || []).map((s) => s.trim());
+//     const productMarkets = (p.supermarkets || []).map((s) => s.trim());
 
-    const matchesMarket =
-      selectedMarkets.length === 0 ||
-      selectedMarkets.some((m) => productMarkets.includes(m));
+//     const matchesMarket =
+//       selectedMarkets.length === 0 ||
+//       selectedMarkets.some((m) => productMarkets.includes(m));
 
-    return matchesSearch && matchesMarket;
-  });
+//     return matchesSearch && matchesMarket;
+//   });
 
-  renderProducts(filtered);
-});
+//   renderProducts(filtered);
+// });
 
 // Close modal when clicking outside
 document.getElementById("modal").addEventListener("click", (e) => {
