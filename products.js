@@ -1230,7 +1230,7 @@ const productsData = [
     price: "38.95 MAD",
     saved: "2.75 MAD",
     category: ["Produits Pas Chers"],
-    supermarkets: ["Marjane"],
+    supermarkets: ["Marjane", "Kazyon"],
     image:
       "https://storage.googleapis.com/sales-img-ma-live/web/cache/sylius_large/5f/9f/9b6d54e02d8a115ee81c6db19b7f.jpg",
     alternatives: [
