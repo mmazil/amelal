@@ -707,9 +707,33 @@ window.openModal = function (index) {
 document.getElementById("shareProductBtn").addEventListener("click", () => {
   if (currentProductIndex !== null) {
     const productLink = `${window.location.origin}/details.html?index=${currentProductIndex}`;
-    navigator.clipboard.writeText(productLink).catch((err) => {
-      console.error("Erreur lors de la copie :", err);
-    });
+    const product = filteredProducts[currentProductIndex];
+
+    if (navigator.share) {
+      // ✅ Native share API is supported (mobile browsers, mostly)
+      navigator
+        .share({
+          title: product.name || "Produit",
+          text: "Découvrez ce produit :",
+          url: productLink,
+        })
+        .then(() => {
+          console.log("Partage réussi");
+        })
+        .catch((err) => {
+          console.warn("Partage annulé ou erreur :", err);
+        });
+    } else {
+      // ❌ Fallback: Copy to clipboard
+      navigator.clipboard
+        .writeText(productLink)
+        .then(() => {
+          showNotification("Le lien de partage est copié", "info");
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la copie :", err);
+        });
+    }
   }
 });
 
