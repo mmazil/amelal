@@ -862,11 +862,12 @@ function filterAndRender() {
     selectedCategory === "Promotions" ? allPromotions : allProducts;
 
   const now = new Date();
-
+  now.setHours(0, 0, 0, 0);
   const filtered = sourceData.filter((product) => {
     // If promotions category, filter out expired promotions
     if (selectedCategory === "Promotions") {
       const promotionEndDate = new Date(product.promotion_end);
+      promotionEndDate.setHours(0, 0, 0, 0);
       if (promotionEndDate < now) {
         return false; // skip expired promotions
       }
