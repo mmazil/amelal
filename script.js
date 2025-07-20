@@ -37,6 +37,8 @@ function isPromotionValid(promotionEnd) {
   if (!promotionEnd) return true;
   const endDate = new Date(promotionEnd);
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
   return endDate >= today;
 }
 
@@ -480,9 +482,9 @@ function initializeApp() {
   // Fetch both regular products and promotions
   Promise.resolve([productsData, promotionsData])
     .then(([products, promotions]) => {
-      // promotions.sort(
-      //   (a, b) => new Date(a.promotion_end) - new Date(b.promotion_end)
-      // );
+      promotions.sort(
+        (a, b) => new Date(a.promotion_end) - new Date(b.promotion_end)
+      );
 
       allProducts = products;
       allPromotions = promotions;
@@ -539,12 +541,22 @@ document.addEventListener("DOMContentLoaded", initializeApp);
 
 // Open modal and show product details
 window.openModal = function (index) {
+  function encodeProductToBase64(product) {
+    const json = JSON.stringify(product);
+    return btoa(encodeURIComponent(json)); // Base64 encode
+  }
   // Use the filtered products array instead of allProducts
-  const product = filteredProducts[index];
   currentProductIndex = index;
+  const product = filteredProducts[index];
   const modal = document.getElementById("modal");
   const modalTitle = document.getElementById("modalTitle");
   const productDetails = document.getElementById("productDetails");
+
+  const productEncoded = encodeProductToBase64(product);
+  const shareLink = `/details.html?data=${productEncoded}`;
+  console.log("shareLink :>> ", shareLink);
+  const shareProductBtn = document.getElementById("shareProductBtn");
+  shareProductBtn.dataset.product = productEncoded;
 
   modalTitle.textContent = "Détails du Produit";
 
@@ -705,36 +717,49 @@ window.openModal = function (index) {
 
 // Share product button
 document.getElementById("shareProductBtn").addEventListener("click", () => {
-  if (currentProductIndex !== null) {
-    const productLink = `${window.location.origin}/details.html?index=${currentProductIndex}`;
-    const product = filteredProducts[currentProductIndex];
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const shareProductBtn = document.getElementById("shareProductBtn");
+  const encodedProduct = shareProductBtn?.dataset.product;
 
-    if (isMobile && navigator.share) {
-      // ✅ Native share API is supported (mobile browsers, mostly)
-      navigator
-        .share({
-          title: product.name || "Produit",
-          text: "Découvrez ce produit :",
-          url: productLink,
-        })
-        .then(() => {
-          console.log("Partage réussi");
-        })
-        .catch((err) => {
-          console.warn("Partage annulé ou erreur :", err);
-        });
-    } else {
-      // ❌ Fallback: Copy to clipboard
-      navigator.clipboard
-        .writeText(productLink)
-        .then(() => {
-          showNotification("Le lien de partage est copié", "info");
-        })
-        .catch((err) => {
-          console.error("Erreur lors de la copie :", err);
-        });
-    }
+  if (!encodedProduct) {
+    console.warn("Aucune donnée produit trouvée.");
+    return;
+  }
+
+  // Decode the product just for use in share title/text
+  let product;
+  try {
+    const decoded = decodeURIComponent(atob(encodedProduct));
+    product = JSON.parse(decoded);
+  } catch (err) {
+    console.error("Erreur lors du décodage du produit :", err);
+    return;
+  }
+
+  const productLink = `${window.location.origin}/details.html?data=${encodedProduct}`;
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile && navigator.share) {
+    navigator
+      .share({
+        title: product.name || "Produit",
+        text: "Découvrez ce produit :",
+        url: productLink,
+      })
+      .then(() => {
+        console.log("Partage réussi");
+      })
+      .catch((err) => {
+        console.warn("Partage annulé ou erreur :", err);
+      });
+  } else {
+    navigator.clipboard
+      .writeText(productLink)
+      .then(() => {
+        showNotification("Le lien de partage est copié", "info");
+      })
+      .catch((err) => {
+        console.error("Erreur lors de la copie :", err);
+      });
   }
 });
 

@@ -44,21 +44,27 @@
       </div>
     </main>
 
-    <script src="promotions.js"></script>
     <script>
-      let product = null;
-      // const allPormotions = promotionsData.sort(
-      //   (a, b) => new Date(a.promotion_end) - new Date(b.promotion_end)
-      // );
-
-      window.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const index = parseInt(params.get("index"));
-        if (!isNaN(index) && promotionsData[index]) {
-          product = promotionsData[index];
-        } else {
-          product = JSON.parse(localStorage.getItem("selectedProduct"));
+      function decodeProductFromBase64(base64) {
+        try {
+          const decoded = decodeURIComponent(atob(base64));
+          return JSON.parse(decoded);
+        } catch (e) {
+          console.error("Invalid product data", e);
+          return null;
         }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const data = params.get("data");
+
+        if (!data) {
+          document.body.innerHTML = "<p>Aucun produit fourni.</p>";
+          return;
+        }
+
+        const product = decodeProductFromBase64(data);
 
         const productDetails = document.getElementById("productDetails");
         if (!product) {
@@ -68,84 +74,86 @@
           const isPromotion = product.original_price && product.saved;
 
           productDetails.innerHTML = `
-            <div class="flex gap-4">
-              <img src="${product.image}" alt="${
+                  <div class="flex gap-4">
+                    <img src="${product.image}" alt="${
             product.name
           }" class="w-24 h-24 object-contain rounded" />
-              <div>
-                <h2 class="text-xl font-semibold">${product.name}</h2>
-                <p class="text-sm text-gray-600">${
-                  product.description || ""
-                }</p>
-                ${
-                  isPromotion
-                    ? '<span class="inline-block mt-2 bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-bold">🔥 PROMOTION</span>'
-                    : ""
-                }
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <span class="text-sm font-medium text-gray-700">Prix :</span>
-                <p class="text-indigo-600 font-bold text-lg">${
-                  product.price
-                }</p>
-              </div>
-
-              ${
-                isPromotion
-                  ? `<div>
-                      <span class="text-sm font-medium text-gray-700">Prix Normal :</span>
-                      <p class="text-gray-500 line-through">${product.original_price}</p>
-                    </div>
                     <div>
-                      <span class="text-sm font-medium text-gray-700">Économisez :</span>
-                      <p class="text-green-600 font-bold">${product.saved}</p>
-                    </div>`
-                  : ""
-              }
-
-              ${
-                product.volume || product.weight || product.quantity
-                  ? `<div>
-                      <span class="text-sm font-medium text-gray-700">${
-                        product.volume
-                          ? "Volume"
-                          : product.weight
-                          ? "Poids"
-                          : "Quantité"
-                      } :</span>
-                      <p>${
-                        product.volume || product.weight || product.quantity
+                      <h2 class="text-xl font-semibold">${product.name}</h2>
+                      <p class="text-sm text-gray-600">${
+                        product.description || ""
                       }</p>
-                    </div>`
-                  : ""
-              }
+                      ${
+                        isPromotion
+                          ? '<span class="inline-block mt-2 bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-bold">🔥 PROMOTION</span>'
+                          : ""
+                      }
+                    </div>
+                  </div>
 
-              <div>
-                <span class="text-sm font-medium text-gray-700">Disponible chez :</span>
-                <div class="flex flex-wrap gap-1 mt-1">
-                  ${product.supermarkets
-                    .map(
-                      (sm) =>
-                        `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${sm}</span>`
-                    )
-                    .join("")}
-                </div>
-              </div>
-            </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <span class="text-sm font-medium text-gray-700">Prix :</span>
+                      <p class="text-indigo-600 font-bold text-lg">${
+                        product.price
+                      }</p>
+                    </div>
 
-            ${
-              product.catalog
-                ? `<div class="flex-row flex justify-between mt-4">
-                    <a href="${product.catalog}" target="_blank" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full text-sm">
-                      📖 Ouvrir le Catalogue
-                    </a>
-                  </div>`
-                : ""
-            }
-          `;
+                    ${
+                      isPromotion
+                        ? `<div>
+                            <span class="text-sm font-medium text-gray-700">Prix Normal :</span>
+                            <p class="text-gray-500 line-through">${product.original_price}</p>
+                          </div>
+                          <div>
+                            <span class="text-sm font-medium text-gray-700">Économisez :</span>
+                            <p class="text-green-600 font-bold">${product.saved}</p>
+                          </div>`
+                        : ""
+                    }
+
+                    ${
+                      product.volume || product.weight || product.quantity
+                        ? `<div>
+                            <span class="text-sm font-medium text-gray-700">${
+                              product.volume
+                                ? "Volume"
+                                : product.weight
+                                ? "Poids"
+                                : "Quantité"
+                            } :</span>
+                            <p>${
+                              product.volume ||
+                              product.weight ||
+                              product.quantity
+                            }</p>
+                          </div>`
+                        : ""
+                    }
+
+                    <div>
+                      <span class="text-sm font-medium text-gray-700">Disponible chez :</span>
+                      <div class="flex flex-wrap gap-1 mt-1">
+                        ${product.supermarkets
+                          .map(
+                            (sm) =>
+                              `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${sm}</span>`
+                          )
+                          .join("")}
+                      </div>
+                    </div>
+                  </div>
+
+                  ${
+                    product.catalog
+                      ? `<div class="flex-row flex justify-between mt-4">
+                          <a href="${product.catalog}" target="_blank" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full text-sm">
+                            📖 Ouvrir le Catalogue
+                          </a>
+                        </div>`
+                      : ""
+                  }
+                `;
         }
       });
     </script>
